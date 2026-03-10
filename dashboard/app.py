@@ -586,9 +586,26 @@ def _fig_fallback(name):
     """Show a pre-rendered PNG from figures/ if available."""
     p = os.path.join(FIGS, name)
     if os.path.exists(p):
-        st.image(p, width='stretch')
+        st.image(p, use_container_width=True)
         return True
     return False
+
+def _fmt_co2(v):
+    """Auto-format a CO₂ value with appropriate precision."""
+    try:
+        v = float(str(v).replace(",", ""))
+    except Exception:
+        return str(v)
+    if v >= 10_000:
+        return f'{v:,.0f}'
+    elif v >= 100:
+        return f'{v:,.1f}'
+    elif v >= 1:
+        return f'{v:.3f}'
+    elif v >= 0.0001:
+        return f'{v:.4f}'
+    else:
+        return f'{v:.2e}'
 
 # ---------------------------------------------------------------------------
 # Sidebar ”” 3 sections
@@ -723,7 +740,7 @@ if page == "Overview":
         _pct_v    = (_saved_v / _baseline * 100) if _baseline > 0 else 0
         _hero_msg = (f"This data center can cut CO₂ emissions by "
                      f"<span style='color:#10b981;font-weight:700'>{_pct_v:.1f}%</span> &#8212; "
-                     f"saving <span style='color:#10b981;font-weight:700'>{_saved_v:,.0f} metric tons</span> "
+                     f"saving <span style='color:#10b981;font-weight:700'>{_fmt_co2(_saved_v)} metric tons</span> "
                      f"of CO₂ with smarter scheduling.")
     else:
         _hero_msg = ("From 95 million raw data points to a "
@@ -824,7 +841,7 @@ elif page == "Data Ingestion":
             connector=dict(line_color=C["muted"], line_width=1),
         ))
         fig.update_layout(**PL, title="Data Reduction Waterfall", height=380)
-        st.plotly_chart(fig, width='stretch')
+        st.plotly_chart(fig, use_container_width=True)
 
     with right:
         st.markdown(f"""<div class="info-box">
@@ -877,7 +894,7 @@ elif page == "Data Ingestion":
                 connector=dict(line=dict(color="#3b4252", width=1)),
             ))
             fig_funnel.update_layout(**PL, height=380, title="Data Volume Funnel")
-            st.plotly_chart(fig_funnel, width='stretch')
+            st.plotly_chart(fig_funnel, use_container_width=True)
 
         with col_r:
             # Treemap of selected machines
@@ -893,7 +910,7 @@ elif page == "Data Ingestion":
                     textfont=dict(size=14, color="white"),
                 ))
                 fig_tree.update_layout(**PL, height=380, title="Selected Machines (Top-10 by data volume)")
-                st.plotly_chart(fig_tree, width='stretch')
+                st.plotly_chart(fig_tree, use_container_width=True)
 
 
 # ###########################################################################
@@ -929,7 +946,7 @@ elif page == "Data Quality":
             colorbar=dict(title="Null %", ticksuffix="%"),
         ))
         fig.update_layout(**PL, title="Null % by machine and metric", height=370)
-        st.plotly_chart(fig, width='stretch')
+        st.plotly_chart(fig, use_container_width=True)
 
     with tab_cpu:
         if "cpu_util_percent" in sub_df.columns:
@@ -940,7 +957,7 @@ elif page == "Data Quality":
                 fig.add_trace(go.Violin(y=vals, name=str(mid), box_visible=True,
                                          meanline_visible=True, line_color=C["blue"], opacity=.6))
             fig.update_layout(**PL, title="CPU util % per machine", height=400, showlegend=False)
-            st.plotly_chart(fig, width='stretch')
+            st.plotly_chart(fig, use_container_width=True)
 
     with tab_mem:
         if "mem_util_percent" in sub_df.columns:
@@ -951,7 +968,7 @@ elif page == "Data Quality":
                 fig.add_trace(go.Violin(y=vals, name=str(mid), box_visible=True,
                                          meanline_visible=True, line_color=C["green"], opacity=.6))
             fig.update_layout(**PL, title="Memory util % per machine", height=400, showlegend=False)
-            st.plotly_chart(fig, width='stretch')
+            st.plotly_chart(fig, use_container_width=True)
 
     with tab_other:
         sensor_cols = [c for c in mcols if c not in ("cpu_util_percent", "mem_util_percent")]
@@ -961,7 +978,7 @@ elif page == "Data Quality":
                 fig = go.Figure(go.Histogram(x=sub_df[pick].dropna(), nbinsx=80,
                                               marker_color=C["purple"], opacity=.7))
                 fig.update_layout(**PL, height=350, title=f"Distribution: {pick}", xaxis_title=pick)
-                st.plotly_chart(fig, width='stretch')
+                st.plotly_chart(fig, use_container_width=True)
         else:
             st.info("No additional sensor columns found.")
 
@@ -1008,7 +1025,7 @@ elif page == "Data Profiling":
             colorbar=dict(title="r"),
         ))
         fig.update_layout(**PL, height=520, title="Feature correlation matrix")
-        st.plotly_chart(fig, width='stretch')
+        st.plotly_chart(fig, use_container_width=True)
 
         # fallback figure
         if not len(ts.columns):
@@ -1027,7 +1044,7 @@ elif page == "Data Profiling":
             fig.add_trace(go.Bar(name="Min", x=scaler["feature"], y=scaler["min"], marker_color=C["blue"], opacity=.7))
             fig.add_trace(go.Bar(name="Max", x=scaler["feature"], y=scaler["max"], marker_color=C["amber"], opacity=.7))
             fig.update_layout(**PL, barmode="group", height=370, title="Feature ranges (before scaling)")
-            st.plotly_chart(fig, width='stretch')
+            st.plotly_chart(fig, use_container_width=True)
         else:
             st.info("Run NB2 to generate scaler parameters.")
 
@@ -1065,7 +1082,7 @@ elif page == "Data Profiling":
                 zmin=-1, zmax=1, colorbar=dict(title="r"),
             ))
             fig.update_layout(**PL, height=520, title="Spark MLlib Correlation Matrix (Distributed)")
-            st.plotly_chart(fig, width='stretch')
+            st.plotly_chart(fig, use_container_width=True)
         else:
             _fig_fallback("spark_mllib_correlation.png")
 
@@ -1107,7 +1124,7 @@ elif page == "Time Series Explorer":
                 fig.add_trace(go.Scattergl(x=ts.index, y=ts[col], mode="lines", name=col,
                                             line=dict(width=1, color=palette[i % len(palette)])))
             fig.update_layout(**PL, height=430, yaxis_title="CPU %", title="CPU Utilisation")
-            st.plotly_chart(fig, width='stretch')
+            st.plotly_chart(fig, use_container_width=True)
         else:
             st.info("Select at least one series above.")
 
@@ -1120,7 +1137,7 @@ elif page == "Time Series Explorer":
                 fig.add_trace(go.Scattergl(x=ts.index, y=ts[col], mode="lines", name=col,
                                             line=dict(width=1, color=palette[i % len(palette)])))
             fig.update_layout(**PL, height=430, yaxis_title="Memory %", title="Memory Utilisation")
-            st.plotly_chart(fig, width='stretch')
+            st.plotly_chart(fig, use_container_width=True)
         else:
             st.info("Select at least one series above.")
 
@@ -1139,7 +1156,7 @@ elif page == "Time Series Explorer":
                                         line=dict(width=1, color=C["green"]),
                                         fill="tozeroy", fillcolor="rgba(52,211,153,.08)"))
             fig.update_layout(**PL, height=400, title="Carbon Intensity (synthetic CAISO)", yaxis_title="gCO2/kWh")
-            st.plotly_chart(fig, width='stretch')
+            st.plotly_chart(fig, use_container_width=True)
 
             # hourly profile
             hourly = pd.DataFrame({"ci": ci, "h": ci.index.hour}).groupby("h")["ci"].mean()
@@ -1148,7 +1165,7 @@ elif page == "Time Series Explorer":
                 marker_color=[C["green"] if v < hourly.median() else C["amber"] for v in hourly.values],
             ))
             fig2.update_layout(**PL, height=300, title="Avg carbon intensity by hour", xaxis_title="Hour of day", yaxis_title="gCO2/kWh")
-            st.plotly_chart(fig2, width='stretch')
+            st.plotly_chart(fig2, use_container_width=True)
         else:
             st.info("No carbon intensity column found.")
 
@@ -1215,7 +1232,7 @@ elif page == "Stationarity & Trends":
                 fig.add_trace(go.Scattergl(x=cpu.index, y=y, mode="lines",
                                             line=dict(width=1, color=clr), showlegend=False), row=i, col=1)
             fig.update_layout(**PL, height=600, title="STL Decomposition - CPU Cluster Average")
-            st.plotly_chart(fig, width='stretch')
+            st.plotly_chart(fig, use_container_width=True)
         else:
             _fig_fallback("stl_decomposition_cpu.png")
 
@@ -1240,7 +1257,7 @@ elif page == "Stationarity & Trends":
                 fig.add_trace(go.Scattergl(x=ci_s.index, y=y, mode="lines",
                                             line=dict(width=1, color=clr), showlegend=False), row=i, col=1)
             fig.update_layout(**PL, height=600, title="STL Decomposition - Carbon Intensity")
-            st.plotly_chart(fig, width='stretch')
+            st.plotly_chart(fig, use_container_width=True)
         else:
             _fig_fallback("stl_decomposition_ci.png")
 
@@ -1266,7 +1283,7 @@ elif page == "Stationarity & Trends":
                 fig.add_trace(go.Histogram(x=ts["carbon_intensity_gCO2_kWh"].dropna(), nbinsx=80,
                                             marker_color=C["green"], opacity=.4, name="Carbon intensity"))
             fig.update_layout(**PL, barmode="overlay", height=380, title="Value distributions")
-            st.plotly_chart(fig, width='stretch')
+            st.plotly_chart(fig, use_container_width=True)
 
 
 
@@ -1293,7 +1310,7 @@ elif page == "Stationarity & Trends":
                                         annotation_text="5% critical value")
                     fig_adf_s.update_layout(**PL, height=380, title="Per-Machine ADF Test Statistic (Spark)",
                                             xaxis_title="Machine", yaxis_title="ADF Statistic")
-                    st.plotly_chart(fig_adf_s, width='stretch')
+                    st.plotly_chart(fig_adf_s, use_container_width=True)
 
             # Spark SQL stats
             if "spark_sql_stats" in spark_diag:
@@ -1311,7 +1328,7 @@ elif page == "Stationarity & Trends":
                             text=[f'{v:.3f}' for v in sql_stats["acf_lag1"]], textposition="outside",
                         ))
                         fig_acf.update_layout(**PL, height=350, title="Per-Machine ACF(1) via Spark SQL")
-                        st.plotly_chart(fig_acf, width='stretch')
+                        st.plotly_chart(fig_acf, use_container_width=True)
                     with right_s:
                         fig_kurt = go.Figure()
                         if "kurtosis" in sql_stats.columns:
@@ -1322,7 +1339,7 @@ elif page == "Stationarity & Trends":
                                                        y=sql_stats["skewness"], marker_color=C["amber"]))
                         fig_kurt.update_layout(**PL, barmode="group", height=350,
                                                title="Per-Machine Kurtosis & Skewness (Spark SQL)")
-                        st.plotly_chart(fig_kurt, width='stretch')
+                        st.plotly_chart(fig_kurt, use_container_width=True)
 
                 st.markdown("""<div class="info-box">
                 <strong>BDA Concepts:</strong> ADF tests were distributed across 10 machines using
@@ -1366,7 +1383,7 @@ elif page == "Autocorrelation":
                 text=[f'{v:.4f}' for v in vals], textposition="outside",
             ))
             fig.update_layout(**PL, height=370, title="ACF at key lags (CPU cluster avg)")
-            st.plotly_chart(fig, width='stretch')
+            st.plotly_chart(fig, use_container_width=True)
 
             st.markdown("""<div class="info-box">
             <strong>Lag 1 (5 min):</strong> Very high autocorrelation ”” short-term persistence.<br>
@@ -1389,7 +1406,7 @@ elif page == "Autocorrelation":
             fig.add_trace(go.Bar(x=list(range(len(a))), y=a, marker_color=C["blue"], opacity=.6, showlegend=False), row=1, col=1)
             fig.add_trace(go.Bar(x=list(range(len(p))), y=p, marker_color=C["purple"], opacity=.6, showlegend=False), row=2, col=1)
             fig.update_layout(**PL, height=480)
-            st.plotly_chart(fig, width='stretch')
+            st.plotly_chart(fig, use_container_width=True)
         else:
             _fig_fallback("acf_pacf_plots.png")
 
@@ -1429,8 +1446,8 @@ elif page == "Forecasting Models":
 
     _sep()
 
-    tab_metrics, tab_fc, tab_msar, tab_lstm, tab_err, tab_radar, tab_feat, tab_resid_ts, tab_spark_setar = st.tabs(
-        ["Metrics comparison", "SETAR Forecast", "MS-AR Forecast", "LSTM Forecast", "Residuals", "Model Radar", "Feature Importance", "Error Over Time", "Per-Machine SETAR (Spark)"])
+    tab_metrics, tab_fc, tab_sarimax, tab_msar, tab_lstm, tab_err, tab_radar, tab_feat, tab_resid_ts, tab_spark_setar = st.tabs(
+        ["Metrics comparison", "SETAR Forecast", "SARIMAX Forecast", "MS-AR Forecast", "LSTM Forecast", "Residuals", "Model Radar", "Feature Importance", "Error Over Time", "Per-Machine SETAR (Spark)"])
 
     with tab_metrics:
         metric_names = ["RMSE", "MAE", "MAPE_%"]
@@ -1443,7 +1460,7 @@ elif page == "Forecasting Models":
                                       text=f'{r[m]:.4f}', textposition="outside", showlegend=False),
                               row=1, col=j+1)
         fig.update_layout(**PL, height=380)
-        st.plotly_chart(fig, width='stretch')
+        st.plotly_chart(fig, use_container_width=True)
         _dark_df(comp)
 
         # â”€â”€ NEW: Metric Improvement Waterfall â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -1463,7 +1480,7 @@ elif page == "Forecasting Models":
                 connector=dict(line_color=C["muted"], line_width=1),
             ))
             fig_wf.update_layout(**PL, height=350, title="RMSE Improvement Waterfall")
-            st.plotly_chart(fig_wf, width='stretch')
+            st.plotly_chart(fig_wf, use_container_width=True)
 
     with tab_fc:
         if fc is not None:
@@ -1479,7 +1496,7 @@ elif page == "Forecasting Models":
                 fig.add_trace(go.Scattergl(x=fp.index, y=fp["cpu_predicted_setar"], mode="lines",
                                             name="SETAR", line=dict(width=1, color=C["blue"], dash="dot")))
             fig.update_layout(**PL, height=440, yaxis_title="CPU %", title="SETAR vs Actual")
-            st.plotly_chart(fig, width='stretch')
+            st.plotly_chart(fig, use_container_width=True)
 
             # â”€â”€ NEW: Dual-axis plot showing error + carbon intensity â”€â”€â”€â”€â”€â”€
             if "carbon_intensity" in fp.columns:
@@ -1495,10 +1512,46 @@ elif page == "Forecasting Models":
                 fig_dual.update_layout(**PL, height=350, title="Forecast Error vs Carbon Intensity")
                 fig_dual.update_yaxes(title_text="|Error| (%)", secondary_y=False)
                 fig_dual.update_yaxes(title_text="gCO2/kWh", secondary_y=True)
-                st.plotly_chart(fig_dual, width='stretch')
+                st.plotly_chart(fig_dual, use_container_width=True)
         else:
             st.info("Run NB4 to generate forecast data.")
-            _fig_fallback("ml_ensemble_forecast.png")
+            col_fb1, col_fb2 = st.columns(2)
+            with col_fb1:
+                _fig_fallback("setar_forecast.png")
+            with col_fb2:
+                _fig_fallback("msar_forecast.png")
+
+    with tab_sarimax:
+        sarimax_fc = _csv("forecast_results.csv")
+        if sarimax_fc is not None and "cpu_predicted_sarimax" in sarimax_fc.columns:
+            fig_sx = go.Figure()
+            fig_sx.add_trace(go.Scattergl(x=pd.to_datetime(sarimax_fc["datetime"]),
+                                          y=sarimax_fc["cpu_actual"], mode="lines",
+                                          name="Actual", line=dict(width=1.2, color=C["slate"])))
+            fig_sx.add_trace(go.Scattergl(x=pd.to_datetime(sarimax_fc["datetime"]),
+                                          y=sarimax_fc["cpu_predicted_sarimax"], mode="lines",
+                                          name="SARIMAX", line=dict(width=1, color=C["cyan"], dash="dot")))
+            fig_sx.update_layout(**PL, height=440, yaxis_title="CPU %", title="SARIMAX vs Actual (Test Set)")
+            st.plotly_chart(fig_sx, use_container_width=True)
+        else:
+            # Show saved PNG
+            _fig_fallback("sarimax_forecast.png")
+
+        sarimax_row = comp[comp["model"].str.upper().str.contains("SARIMAX")]
+        if len(sarimax_row):
+            sr = sarimax_row.iloc[0]
+            c1s, c2s, c3s = st.columns(3)
+            with c1s: st.markdown(_kpi(f'{sr["RMSE"]:.4f}', "RMSE", "red"), unsafe_allow_html=True)
+            with c2s: st.markdown(_kpi(f'{sr["MAE"]:.4f}', "MAE", "amber"), unsafe_allow_html=True)
+            with c3s: st.markdown(_kpi(f'{sr["MAPE_%"]:.2f}%', "MAPE", "blue"), unsafe_allow_html=True)
+
+        st.markdown("""<div class="info-box">
+        <strong>SARIMAX (5-min, d=0, Fourier seasonality):</strong><br>
+        Order: AR(2), MA(1), d=0 with Fourier terms K=4 (period=288) as exogenous regressors.<br>
+        Carbon intensity added as an exogenous variable.<br>
+        SARIMAX establishes the <strong>linear baseline</strong> — its RMSE is the benchmark against which
+        SETAR, MS-AR and LSTM improvements are measured.
+        </div>""", unsafe_allow_html=True)
 
     with tab_msar:
         if msar is not None:
@@ -1508,7 +1561,7 @@ elif page == "Forecasting Models":
             fig.add_trace(go.Scattergl(y=msar["cpu_predicted_msar"], mode="lines",
                                         name="MS-AR", line=dict(width=1, color=C["amber"], dash="dot")))
             fig.update_layout(**PL, height=380, yaxis_title="CPU %", title="MS-AR forecast on test set")
-            st.plotly_chart(fig, width='stretch')
+            st.plotly_chart(fig, use_container_width=True)
 
             # â”€â”€ NEW: MS-AR error density + Q-Q style scatter â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             err_msar = msar["cpu_actual"] - msar["cpu_predicted_msar"]
@@ -1517,7 +1570,7 @@ elif page == "Forecasting Models":
                 fig_ld = go.Figure(go.Histogram(x=err_msar, nbinsx=50, marker_color=C["amber"], opacity=.7,
                                                  histnorm="probability density"))
                 fig_ld.update_layout(**PL, height=320, title="MS-AR Error Distribution", xaxis_title="Error (%)")
-                st.plotly_chart(fig_ld, width='stretch')
+                st.plotly_chart(fig_ld, use_container_width=True)
             with col_r:
                 fig_qq = go.Figure(go.Scattergl(
                     x=msar["cpu_actual"], y=msar["cpu_predicted_msar"], mode="markers",
@@ -1527,7 +1580,7 @@ elif page == "Forecasting Models":
                                              line=dict(color=C["red"], dash="dash"), name="Perfect"))
                 fig_qq.update_layout(**PL, height=320, title="MS-AR: Actual vs Predicted",
                                       xaxis_title="Actual", yaxis_title="Predicted")
-                st.plotly_chart(fig_qq, width='stretch')
+                st.plotly_chart(fig_qq, use_container_width=True)
         else:
             st.info("MS-AR results will appear after NB4 finishes training.")
 
@@ -1543,7 +1596,7 @@ elif page == "Forecasting Models":
             fig_lstm.add_trace(go.Scattergl(x=lstm_fc.index, y=lstm_fc["cpu_predicted_lstm"], mode="lines",
                                             name="LSTM", line=dict(width=1, color=C["purple"], dash="dot")))
             fig_lstm.update_layout(**PL, height=440, yaxis_title="CPU %", title="LSTM vs Actual (Test Set)")
-            st.plotly_chart(fig_lstm, width='stretch')
+            st.plotly_chart(fig_lstm, use_container_width=True)
 
             err_lstm = lstm_fc["cpu_actual"] - lstm_fc["cpu_predicted_lstm"]
             left_l, right_l = st.columns(2)
@@ -1551,7 +1604,7 @@ elif page == "Forecasting Models":
                 fig_ld = go.Figure(go.Histogram(x=err_lstm, nbinsx=50, marker_color=C["purple"], opacity=.7,
                                                  histnorm="probability density"))
                 fig_ld.update_layout(**PL, height=320, title="LSTM Error Distribution", xaxis_title="Error (%)")
-                st.plotly_chart(fig_ld, width='stretch')
+                st.plotly_chart(fig_ld, use_container_width=True)
             with right_l:
                 mn_l = min(lstm_fc["cpu_actual"].min(), lstm_fc["cpu_predicted_lstm"].min())
                 mx_l = max(lstm_fc["cpu_actual"].max(), lstm_fc["cpu_predicted_lstm"].max())
@@ -1562,7 +1615,11 @@ elif page == "Forecasting Models":
                                               line=dict(color=C["red"], dash="dash"), name="Perfect"))
                 fig_qq_l.update_layout(**PL, height=320, title="LSTM: Actual vs Predicted",
                                        xaxis_title="Predicted", yaxis_title="Actual")
-                st.plotly_chart(fig_qq_l, width='stretch')
+                st.plotly_chart(fig_qq_l, use_container_width=True)
+
+            _sep()
+            st.markdown("##### LSTM Training History")
+            _fig_fallback("lstm_training_curves.png")
 
             st.markdown("""<div class="info-box">
             <strong>LSTM Architecture:</strong> 2-layer LSTM (64 hidden units, dropout 0.2), sliding window of 24 steps (2 hours),
@@ -1572,7 +1629,11 @@ elif page == "Forecasting Models":
             </div>""", unsafe_allow_html=True)
         else:
             st.info("Run NB4 (Model D section) to generate LSTM forecast results.")
-            _fig_fallback("lstm_forecast.png")
+            col_l1, col_l2 = st.columns(2)
+            with col_l1:
+                _fig_fallback("lstm_forecast.png")
+            with col_l2:
+                _fig_fallback("lstm_training_curves.png")
 
     with tab_err:
         if fc is not None and "cpu_actual" in fc.columns and "cpu_predicted_setar" in fc.columns:
@@ -1582,7 +1643,7 @@ elif page == "Forecasting Models":
                 fig = go.Figure(go.Histogram(x=err, nbinsx=60, marker_color=C["blue"], opacity=.7))
                 fig.update_layout(**PL, height=340, title="Error distribution (SETAR)",
                                   xaxis_title="Actual - Predicted")
-                st.plotly_chart(fig, width='stretch')
+                st.plotly_chart(fig, use_container_width=True)
             with right:
                 mx = max(fc["cpu_actual"].max(), fc["cpu_predicted_setar"].max())
                 fig = go.Figure()
@@ -1592,7 +1653,7 @@ elif page == "Forecasting Models":
                                           line=dict(color=C["red"], dash="dash", width=1), name="y=x"))
                 fig.update_layout(**PL, height=340, title="Actual vs Predicted",
                                   xaxis_title="Predicted", yaxis_title="Actual")
-                st.plotly_chart(fig, width='stretch')
+                st.plotly_chart(fig, use_container_width=True)
 
             # â”€â”€ NEW: Error CDF for all models â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             _sep()
@@ -1609,7 +1670,7 @@ elif page == "Forecasting Models":
             fig_cdf.add_hline(y=0.9, line=dict(color=C["muted"], dash="dot"), annotation_text="90th pct")
             fig_cdf.update_layout(**PL, height=400, title="Cumulative Distribution of |Error|",
                                   xaxis_title="Absolute Error (%)", yaxis_title="CDF")
-            st.plotly_chart(fig_cdf, width='stretch')
+            st.plotly_chart(fig_cdf, use_container_width=True)
 
     # â”€â”€ NEW TAB: Model Radar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     with tab_radar:
@@ -1638,7 +1699,7 @@ elif page == "Forecasting Models":
                     bgcolor="rgba(0,0,0,0)",
                 ),
             )
-            st.plotly_chart(fig_mr, width='stretch')
+            st.plotly_chart(fig_mr, use_container_width=True)
 
             st.markdown("""<div class="info-box">
             <strong>Interpretation:</strong> Each axis represents a metric (inverted so larger area = better performance).
@@ -1676,7 +1737,7 @@ elif page == "Forecasting Models":
                 fig_et.add_hline(y=ae_setar.mean(), line=dict(color=C["amber"], dash="dash"),
                                   annotation_text=f"mean={ae_setar.mean():.2f}")
             fig_et.update_layout(**PL, height=450, title="Absolute Prediction Error Over Time")
-            st.plotly_chart(fig_et, width='stretch')
+            st.plotly_chart(fig_et, use_container_width=True)
         else:
             st.info("Run NB4 to see error timelines.")
 
@@ -1709,7 +1770,7 @@ elif page == "Forecasting Models":
                         text=[f'{v:.4f}' for v in spark_setar["test_rmse"]], textposition="outside",
                     ))
                     fig_rmse.update_layout(**PL, height=380, title="Per-Machine Test RMSE (SETAR via Spark)")
-                    st.plotly_chart(fig_rmse, width='stretch')
+                    st.plotly_chart(fig_rmse, use_container_width=True)
             with right_st:
                 if "threshold" in spark_setar.columns:
                     fig_thr = go.Figure(go.Bar(
@@ -1718,7 +1779,7 @@ elif page == "Forecasting Models":
                         text=[f'{v:.2f}' for v in spark_setar["threshold"]], textposition="outside",
                     ))
                     fig_thr.update_layout(**PL, height=380, title="Per-Machine SETAR Threshold (Spark)")
-                    st.plotly_chart(fig_thr, width='stretch')
+                    st.plotly_chart(fig_thr, use_container_width=True)
 
             st.markdown("""<div class="info-box">
             <strong>BDA Concept:</strong> Each machine's SETAR model was trained independently using
@@ -1732,9 +1793,15 @@ elif page == "Forecasting Models":
 
 
     _sep()
-    st.markdown('''<div class="info-box">
-    <strong>💡 Key Takeaway:</strong> <strong>LSTM achieves the lowest RMSE (4.41)</strong> — 73% better than SARIMAX —
-    by capturing long-range temporal patterns. However, SETAR's interpretable regime structure is preferred
+    # Dynamic key takeaway — reads actual numbers from model_comparison.csv
+    _best_row  = comp.sort_values("RMSE").iloc[0]
+    _worst_row = comp.sort_values("RMSE").iloc[-1]
+    _pct_imp   = (_worst_row["RMSE"] - _best_row["RMSE"]) / _worst_row["RMSE"] * 100
+    st.markdown(f'''<div class="info-box">
+    <strong>💡 Key Takeaway:</strong> <strong>{_best_row["model"]} achieves the lowest RMSE
+    ({_best_row["RMSE"]:.4f})</strong> — {_pct_imp:.0f}% lower than {_worst_row["model"]}
+    ({_worst_row["RMSE"]:.4f}) — by capturing long-range temporal patterns.
+    However, SETAR's interpretable regime structure (BIC-validated two-regime switching) is preferred
     for the scheduler because its threshold mechanism aligns naturally with CPU load state transitions.
     The conformal wrapper then adds distribution-free uncertainty bounds on top of any model's output.
     </div>''', unsafe_allow_html=True)
@@ -1775,7 +1842,7 @@ elif page == "Power & Emissions":
                           annotation_text=f"mean={ci.mean():.0f}")
             fig.update_layout(**PL, height=400, yaxis_title="gCO2/kWh",
                               title="Carbon Intensity over full trace")
-            st.plotly_chart(fig, width='stretch')
+            st.plotly_chart(fig, use_container_width=True)
 
         with tab_hourly:
             hourly = pd.DataFrame({"ci": ci, "h": ci.index.hour}).groupby("h")["ci"].agg(["mean", "std"])
@@ -1786,7 +1853,7 @@ elif page == "Power & Emissions":
                                                 for v in hourly["mean"]]))
             fig.update_layout(**PL, height=360, title="Mean CI by hour (with std dev)",
                               xaxis_title="Hour of day", yaxis_title="gCO2/kWh")
-            st.plotly_chart(fig, width='stretch')
+            st.plotly_chart(fig, use_container_width=True)
 
             st.markdown("""<div class="info-box">
             Low-CI windows (green bars) cluster around midday &mdash; coinciding with peak solar generation.
@@ -1803,7 +1870,7 @@ elif page == "Power & Emissions":
                 colorbar=dict(title="gCO2/kWh"),
             ))
             fig.update_layout(**PL, height=350, title="Carbon intensity: day x hour")
-            st.plotly_chart(fig, width='stretch')
+            st.plotly_chart(fig, use_container_width=True)
     else:
         st.info("Run NB2 to generate carbon intensity data.")
 
@@ -1830,15 +1897,15 @@ elif page == "Power & Emissions":
             v_map = ["red", "amber", "green"]
             for i, (col, s, val) in enumerate(zip(cols, strategies, co2_vals)):
                 with col:
-                    st.markdown(_kpi(f'{val:,.0f}', s, v_map[i] if i < len(v_map) else ""), unsafe_allow_html=True)
+                    st.markdown(_kpi(_fmt_co2(val), s, v_map[i] if i < len(v_map) else ""), unsafe_allow_html=True)
 
             fig = go.Figure(go.Bar(
                 x=strategies, y=co2_vals,
                 marker_color=[C["red"], C["amber"], C["green"]][:len(strategies)],
-                text=[f'{v:,.0f}' for v in co2_vals], textposition="outside",
+                text=[_fmt_co2(v) for v in co2_vals], textposition="outside",
             ))
             fig.update_layout(**PL, height=380, title="Total CO2 emissions (metric tons)", yaxis_title="CO2 (metric tons)")
-            st.plotly_chart(fig, width='stretch')
+            st.plotly_chart(fig, use_container_width=True)
 
 
 # ###########################################################################
@@ -1880,7 +1947,7 @@ elif page == "CPU Load Analysis":
                 colorbar=dict(title="CPU %"),
             ))
             fig.update_layout(**PL, height=400, title="CPU utilisation: machine x time (hourly)")
-            st.plotly_chart(fig, width='stretch')
+            st.plotly_chart(fig, use_container_width=True)
 
     with tab_roll:
         if "cpu_cluster_avg" in ts.columns:
@@ -1894,7 +1961,7 @@ elif page == "CPU Load Analysis":
             fig.add_trace(go.Scattergl(x=ts.index, y=roll_4h, mode="lines",
                                         name="4 h rolling", line=dict(width=2, color=C["amber"])))
             fig.update_layout(**PL, height=420, yaxis_title="CPU %", title="Cluster CPU with rolling averages")
-            st.plotly_chart(fig, width='stretch')
+            st.plotly_chart(fig, use_container_width=True)
 
     with tab_violin:
         if cpu_cols:
@@ -1904,7 +1971,7 @@ elif page == "CPU Load Analysis":
                                          meanline_visible=True, line_color=[C["blue"], C["green"], C["purple"], C["amber"], C["red"], C["cyan"], "#f472b6", "#38bdf8", "#a3e635", "#fb923c"][i % 10],
                                          opacity=.6))
             fig.update_layout(**PL, height=420, title="CPU load distribution per machine", showlegend=False)
-            st.plotly_chart(fig, width='stretch')
+            st.plotly_chart(fig, use_container_width=True)
 
     # peak detection
     if "cpu_cluster_avg" in ts.columns:
@@ -1942,13 +2009,13 @@ elif page == "Scheduling Strategies":
 
     if co2c and strc:
         strategies = sch[strc].tolist()
-        co2_vals   = sch[co2c].tolist()
+        co2_vals   = pd.to_numeric(pd.Series(sch[co2c]).astype(str).str.replace(",", ""), errors="coerce").fillna(0).tolist()
 
         cols = st.columns(len(strategies) + 1)
         v_map = ["red", "amber", "green"]
         for i, (col, s, val) in enumerate(zip(cols, strategies, co2_vals)):
             with col:
-                st.markdown(_kpi(f'{val:,.0f}', s, v_map[i] if i < len(v_map) else ""), unsafe_allow_html=True)
+                st.markdown(_kpi(_fmt_co2(val), s, v_map[i] if i < len(v_map) else ""), unsafe_allow_html=True)
         if len(co2_vals) >= 2 and co2_vals[0] > 0:
             best_val = min(co2_vals[1:])
             red_pct  = (1 - best_val / co2_vals[0]) * 100
@@ -1964,10 +2031,10 @@ elif page == "Scheduling Strategies":
             fig = go.Figure(go.Bar(
                 x=strategies, y=co2_vals,
                 marker_color=[C["red"], C["amber"], C["green"]][:len(strategies)],
-                text=[f'{v:,.0f}' for v in co2_vals], textposition="outside",
+                text=[_fmt_co2(v) for v in co2_vals], textposition="outside",
             ))
             fig.update_layout(**PL, height=400, title=f"Total CO2 by strategy ({co2c})", yaxis_title="CO2")
-            st.plotly_chart(fig, width='stretch')
+            st.plotly_chart(fig, use_container_width=True)
 
         with tab_detail:
             # show all columns of scheduling results
@@ -1981,7 +2048,7 @@ elif page == "Scheduling Strategies":
                                       marker_color=[C["blue"]] * len(strategies),
                                       text=[f'{v:.1f}' for v in sch[delay_c]], textposition="outside"))
                 fig.update_layout(**PL, height=340, title="Average batch delay (min)", yaxis_title="Minutes")
-                st.plotly_chart(fig, width='stretch')
+                st.plotly_chart(fig, use_container_width=True)
 
             st.markdown("""<div class="info-box">
             <strong>FIFO (Carbon-Blind):</strong> Jobs run immediately ”” no delay, highest emissions.<br>
@@ -2001,7 +2068,7 @@ elif page == "Scheduling Strategies":
                     ))
                     fig.update_layout(**PL, height=400, title="Pareto frontier: CO2 savings vs flexibility",
                                       xaxis_title=xc, yaxis_title=yc)
-                    st.plotly_chart(fig, width='stretch')
+                    st.plotly_chart(fig, use_container_width=True)
                 else:
                     _dark_df(par)
             else:
@@ -2040,7 +2107,7 @@ elif page == "Scheduling Strategies":
                     bgcolor="rgba(0,0,0,0)",
                 ),
             )
-            st.plotly_chart(fig_sr, width='stretch')
+            st.plotly_chart(fig_sr, use_container_width=True)
 
             st.markdown("""<div class="info-box">
             <strong>Interpretation:</strong> Larger area = better overall strategy.<br>
@@ -2057,7 +2124,7 @@ elif page == "Scheduling Strategies":
                     x=[strategies[0]] + [f"Saved by {s.split('(')[-1].rstrip(')')}" if '(' in s else f"Saved by {s}" for s in strategies[1:]],
                     y=[co2_v[0]] + [co2_v[i] - co2_v[0] for i in range(1, len(co2_v))],
                     measure=["absolute"] + ["relative"] * (len(co2_v)-1),
-                    text=[f'{co2_v[0]:,.0f}'] + [f'{co2_v[0]-co2_v[i]:,.0f}' for i in range(1, len(co2_v))],
+                    text=[_fmt_co2(co2_v[0])] + [_fmt_co2(co2_v[0]-co2_v[i]) for i in range(1, len(co2_v))],
                     textposition="outside",
                     increasing=dict(marker_color=C["green"]),
                     decreasing=dict(marker_color=C["green"]),
@@ -2066,7 +2133,7 @@ elif page == "Scheduling Strategies":
                 ))
                 fig_sw.update_layout(**PL, height=420, title="CO2 Emissions Reduction Waterfall",
                                       yaxis_title="CO2 (metric tons)")
-                st.plotly_chart(fig_sw, width='stretch')
+                st.plotly_chart(fig_sw, use_container_width=True)
 
                 # Percentage breakdown pie chart
                 saved_total = co2_v[0] - min(co2_v[1:])
@@ -2079,7 +2146,7 @@ elif page == "Scheduling Strategies":
                     textfont=dict(size=13),
                 ))
                 fig_pie.update_layout(**PL, height=350, title="CO2 Saved vs Remaining")
-                st.plotly_chart(fig_pie, width='stretch')
+                st.plotly_chart(fig_pie, use_container_width=True)
 
         with tab_spark_sched:
             _title("Spark SQL Scheduling", "Optimal green-window assignment via Spark SQL (NB-05).")
@@ -2104,7 +2171,7 @@ elif page == "Scheduling Strategies":
                     ))
                     fig_ci.update_layout(**PL, height=350, title="Distribution of Optimal CI per Job (Spark SQL)",
                                           xaxis_title="Avg Carbon Intensity in Window", yaxis_title="Count")
-                    st.plotly_chart(fig_ci, width='stretch')
+                    st.plotly_chart(fig_ci, use_container_width=True)
 
                 st.markdown("""<div class="info-box">
                 <strong>BDA Concept:</strong> Spark SQL cross-joined jobs with time slots, computed average CI
@@ -2193,7 +2260,7 @@ elif page == "Scheduling Strategies":
     fig_sim.update_layout(**PL, height=360,
         title=f"Simulated CO₂ for {num_jobs} jobs @ {avg_cpu}% CPU (delay ≤ {flex_hours}h)",
         yaxis_title="Estimated CO₂ (kg)")
-    st.plotly_chart(fig_sim, width='stretch')
+    st.plotly_chart(fig_sim, use_container_width=True)
 
     # 24h CI curve with optimal window shaded
     fig_ci_sim = go.Figure()
@@ -2219,7 +2286,7 @@ elif page == "Scheduling Strategies":
         xaxis_title="Hour of Day", yaxis_title="gCO₂/kWh")
     fig_ci_sim.update_xaxes(tickmode="array", tickvals=list(range(0,24,2)),
                             ticktext=[f'{h:02d}:00' for h in range(0,24,2)])
-    st.plotly_chart(fig_ci_sim, width='stretch')
+    st.plotly_chart(fig_ci_sim, use_container_width=True)
 
     st.markdown(f"""<div class="info-box">
     <strong>💡 Key Takeaway:</strong> With just <strong>{flex_hours} hour(s)</strong> of scheduling flexibility,
@@ -2304,7 +2371,7 @@ elif page == "Uncertainty & Conformal":
             fig.add_trace(go.Scatter(x=cf.index[viol], y=cf[ac][viol], mode="markers",
                                       name="Violations", marker=dict(size=5, color=C["red"], symbol="x")))
         fig.update_layout(**PL, height=460, yaxis_title="CPU %", title="Conformal prediction intervals")
-        st.plotly_chart(fig, width='stretch')
+        st.plotly_chart(fig, use_container_width=True)
 
     with tab_cov:
         w = max(20, len(cf) // 20)
@@ -2314,7 +2381,7 @@ elif page == "Uncertainty & Conformal":
                                     line=dict(width=1.5, color=C["green"]), name=f"Rolling (w={w})"))
         fig.add_hline(y=95, line=dict(color=C["red"], dash="dash", width=1), annotation_text="95% target")
         fig.update_layout(**PL, height=380, yaxis_title="Coverage %", title="Rolling coverage rate")
-        st.plotly_chart(fig, width='stretch')
+        st.plotly_chart(fig, use_container_width=True)
 
         st.markdown(f"""<div class="info-box">
         Target: <strong>95.0%</strong> &nbsp;|&nbsp;
@@ -2328,12 +2395,12 @@ elif page == "Uncertainty & Conformal":
         with left:
             fig = go.Figure(go.Histogram(x=widths, nbinsx=50, marker_color=C["purple"], opacity=.65))
             fig.update_layout(**PL, height=340, title="Width distribution", xaxis_title="Interval width (%)")
-            st.plotly_chart(fig, width='stretch')
+            st.plotly_chart(fig, use_container_width=True)
         with right:
             fig = go.Figure(go.Scattergl(x=cf.index, y=widths, mode="lines",
                                           line=dict(width=1, color=C["amber"])))
             fig.update_layout(**PL, height=340, title="Width over time", yaxis_title="Width (%)")
-            st.plotly_chart(fig, width='stretch')
+            st.plotly_chart(fig, use_container_width=True)
 
     with tab_cond:
         # conditional coverage by hour if datetime index
@@ -2347,7 +2414,7 @@ elif page == "Uncertainty & Conformal":
             fig.add_hline(y=95, line=dict(color=C["red"], dash="dash", width=1), annotation_text="95% target")
             fig.update_layout(**PL, height=370, title="Coverage by hour of day",
                               xaxis_title="Hour", yaxis_title="Coverage %")
-            st.plotly_chart(fig, width='stretch')
+            st.plotly_chart(fig, use_container_width=True)
 
             st.markdown("""<div class="info-box">
             Conditional coverage checks whether the guarantee holds uniformly across all hours.
@@ -2355,7 +2422,7 @@ elif page == "Uncertainty & Conformal":
             &mdash; a known limitation of split conformal.
             </div>""", unsafe_allow_html=True)
         except Exception:
-            _fig_fallback("conditional_coverage.png")
+            st.info("Conditional coverage by hour will appear once datetime index is available.")
 
     # â”€â”€ NEW: Calibration & Reliability Section â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     _sep()
@@ -2378,7 +2445,7 @@ elif page == "Uncertainty & Conformal":
                                       line=dict(color=C["amber"], dash="dash"), name="Perfect"))
         fig_cal.update_layout(**PL, height=370, title="Calibration: Predicted vs Actual",
                               xaxis_title="Predicted CPU %", yaxis_title="Actual CPU %")
-        st.plotly_chart(fig_cal, width='stretch')
+        st.plotly_chart(fig_cal, use_container_width=True)
 
     with col_cal_r:
         # Interval width vs absolute error
@@ -2394,7 +2461,7 @@ elif page == "Uncertainty & Conformal":
                                       line=dict(color=C["amber"], dash="dot"), name="Width/2 line"))
         fig_eff.update_layout(**PL, height=370, title="Interval Efficiency: Width vs Error",
                               xaxis_title="Interval Width (%)", yaxis_title="|Absolute Error| (%)")
-        st.plotly_chart(fig_eff, width='stretch')
+        st.plotly_chart(fig_eff, use_container_width=True)
 
     st.markdown("""<div class="info-box">
     <strong>Key Insight:</strong> Points below the Width/2 line indicate <em>efficient</em> intervals
@@ -2433,7 +2500,7 @@ elif page == "Uncertainty & Conformal":
                 ))
                 fig_cov.add_hline(y=95, line=dict(color=C["red"], dash="dash"), annotation_text="95% target")
                 fig_cov.update_layout(**PL, height=380, title="Per-Machine 95% Coverage (Spark)")
-                st.plotly_chart(fig_cov, width='stretch')
+                st.plotly_chart(fig_cov, use_container_width=True)
         with right_cf:
             if "avg_width_95" in spark_conf.columns:
                 fig_wid = go.Figure(go.Bar(
@@ -2442,7 +2509,7 @@ elif page == "Uncertainty & Conformal":
                     text=[f'{v:.2f}' for v in spark_conf["avg_width_95"]], textposition="outside",
                 ))
                 fig_wid.update_layout(**PL, height=380, title="Per-Machine Interval Width (Spark)")
-                st.plotly_chart(fig_wid, width='stretch')
+                st.plotly_chart(fig_wid, use_container_width=True)
 
         st.markdown("""<div class="info-box">
         <strong>BDA Concept:</strong> Conformal prediction was calibrated independently on each of 10 machines
@@ -2451,7 +2518,6 @@ elif page == "Uncertainty & Conformal":
         </div>""", unsafe_allow_html=True)
     else:
         st.info("Run NB-06 (section 6.8) to generate per-machine conformal results.")
-        _fig_fallback("spark_conformal_per_machine.png")
 
 
 
