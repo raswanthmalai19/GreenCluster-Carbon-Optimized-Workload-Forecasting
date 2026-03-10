@@ -1,0 +1,5 @@
+.venv/
+__pycache__/
+*.pyc
+# Raw Alibaba dataset — 3.4GB, exceeds GitHub 100MB file limit
+machine_usage_bigger.csv

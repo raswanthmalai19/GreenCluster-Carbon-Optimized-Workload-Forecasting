@@ -1,0 +1,59 @@
+{
+  "adf_tests": [
+    {
+      "series": "CPU Cluster Avg (raw)",
+      "test_stat": -4.662276464367736,
+      "p_value": 9.901107686505309e-05,
+      "stationary": "True"
+    },
+    {
+      "series": "cpu_m_1223 (raw)",
+      "test_stat": -4.822663563400719,
+      "p_value": 4.9209044220175315e-05,
+      "stationary": "True"
+    },
+    {
+      "series": "Carbon Intensity (raw)",
+      "test_stat": -3.7345615117617483,
+      "p_value": 0.0036524599578580032,
+      "stationary": "True"
+    },
+    {
+      "series": "CPU Cluster Avg (1st-order differenced)",
+      "test_stat": -10.673761672858452,
+      "p_value": 4.1035951087044326e-19,
+      "stationary": "True"
+    },
+    {
+      "series": "Carbon Intensity (1st-order differenced)",
+      "test_stat": -26.88597336580197,
+      "p_value": 0.0,
+      "stationary": true
+    }
+  ],
+  "seasonality": {
+    "period": 288,
+    "cpu_seasonal_strength": 0.7264,
+    "ci_seasonal_strength": 0.9211
+  },
+  "distribution": {
+    "cpu_cluster_avg": {
+      "mean": 37.637,
+      "std": 8.488,
+      "skewness": 0.621,
+      "kurtosis": 0.543
+    },
+    "carbon_intensity": {
+      "mean": 357.684,
+      "std": 84.559,
+      "skewness": -0.431,
+      "kurtosis": -0.679
+    }
+  },
+  "acf_key_lags": {
+    "lag_1_5min": 0.8797,
+    "lag_12_1hr": 0.6454,
+    "lag_144_12hr": -0.3206,
+    "lag_288_24hr": 0.5466
+  }
+}

@@ -1,0 +1,4 @@
+Scenario,Avg CI (gCO₂/kWh),Total CO₂ (metric tons),CO₂ Reduction,Avg Delay (min),Safe Window (%)
+Carbon-Blind (FIFO),360,0.0316,Baseline,0,N/A
+Carbon-Aware Naive,274,0.0306,3.3%,223,N/A
+Carbon-Aware Risk-Aware,274,0.0306,3.3%,223,100.0%

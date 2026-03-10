@@ -1,0 +1,1485 @@
+\documentclass[12pt]{report}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{amssymb,mathrsfs}
+\usepackage{amsmath, amsthm}
+\DeclareMathAlphabet{\mathpzc}{OT1}{pzc}{m}{it}
+\usepackage[lmargin=3cm,rmargin=3cm,tmargin=3cm,bmargin=3.5cm]{geometry}
+\usepackage{nomencl}
+\usepackage{multirow}
+\usepackage{float}
+\usepackage{subcaption}
+\usepackage{caption}
+\usepackage{rotating}
+\usepackage{lscape}
+\usepackage{siunitx}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+% Code listing style
+\lstset{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single,
+    backgroundcolor=\color{gray!10},
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!50!black},
+    stringstyle=\color{red!60!black},
+}
+
+\renewcommand\bibname{References}
+\author{Name}
+\date{}
+\DeclareMathAlphabet{\mathpzc}{OT1}{pzc}{m}{it}
+\begin{document}
+	
+	%\lipsum[1-8]
+	\thispagestyle{empty}
+	\begin{large}
+		\begin{center}
+			
+			
+			{\Large{\bf {\sc Carbon-Aware Data Center Scheduling using Big Data Analytics and Time Series Forecasting with Conformal Prediction}}}
+			
+			
+			\vspace{.3cm}
+			
+			\vspace{1cm}
+			PROJECT REPORT \\
+			\vspace{.3cm}
+			\textit{Submitted by}\\
+			\vspace{.3cm}
+			\textbf{Name}\\
+			\textbf{(Roll.No)}\\
+			\vspace{.3cm}
+			\textit{in partial fulfillment for the award of the degree of}\\
+			\vspace{.5cm}
+			\textbf{BACHELOR OF TECHNOLOGY}\\
+			\textbf{IN}\\
+			\textbf{COMPUTER SCIENCE ENGINEERING - ARTIFICIAL INTELLIGENCE}\\
+			\vspace*{.3cm}
+			\begin{figure}[h]
+				\hspace*{4.5cm}\includegraphics*[width=3.1in, height=1in, keepaspectratio=false]{Amrita.jpg}\\
+			\end{figure}
+			
+			\vspace*{.2cm}
+			\textbf{\small{COMPUTER SCIENCE ENGINEERING - ARTIFICIAL INTELLIGENCE}}\\
+			\vspace*{.2cm}
+			\large {\textbf{AMRITA SCHOOL OF ARTIFICIAL INTELLIGENCE}}\\
+			\vspace*{.2cm}
+			\Large{ \textbf{ AMRITA VISHWA VIDYAPEETHAM}}\\
+			\vspace*{.2cm}
+			\small{ COIMBATORE} - 641 112 (\small{INDIA)}\\
+			\vspace*{.2cm}
+			\bf{\small{ APRIL - 2025}}
+			
+		\end{center}
+	\end{large}
+	
+	\baselineskip 1cm
+	\newtheorem{thm}{Theorem}[section]
+	\newtheorem{cor}{Corollary}[section]
+	\newtheorem{pro}{Proposition}[section]
+	%\newtheorem{lem}[thm]{Lemma}
+	%\newtheorem{Theorem}{Theorem}
+	\newtheorem{Lemma}{Lemma}[section]
+	\newtheorem{example}{Example}[section]
+	\newtheorem{rem}{Remark}[section]
+	\newtheorem{note}{Note}[section]
+	\newtheorem{defn}{Definition}[section]
+	
+	%\newtheorem{thm}{Theorem}[section]
+	%\newtheorem{cor}[thm]{Corollary}
+	%\newtheorem{pro}[thm]{Proposition}
+	%%\newtheorem{lem}[thm]{Lemma}
+	%%\newtheorem{Theorem}{Theorem}
+	%\newtheorem{Lemma}[thm]{Lemma}
+	%\newtheorem{example}[thm]{Example}
+	%\newtheorem{rem}[thm]{Remark}
+	%\newtheorem{note}[thm]{Note}
+	%\newtheorem{defn}[thm]{Definition}
+	%\maketitle{}
+	\newpage
+	\thispagestyle{empty}
+	\begin{center}
+		{\large {\textbf{COMPUTER SCIENCE ENGINEERING - ARTIFICIAL INTELLIGENCE}}}\\
+		\Large{ \textbf{ AMRITA VISHWA VIDYAPEETHAM}}\\
+		\small{ COIMBATORE} - 641 112\\
+		
+		\begin{figure}[h]
+			\hspace*{4.5cm}\includegraphics*[width=3.1in, height=1in, keepaspectratio=false]{Amrita.jpg}\\
+		\end{figure}
+		
+		{\Large \textbf{BONAFIDE CERTIFICATE}}
+	\end{center}
+	
+	\noindent This is to certify that the thesis entitled {\small\textbf{``Carbon-Aware Data Center Scheduling using Big Data Analytics and Time Series Forecasting with Conformal Prediction"}} submitted by  \textbf{Name  (Register Number- Roll.No),} for the award of the \textbf{Degree of Bachelor of Technology} in the \textbf{``COMPUTER SCIENCE ENGINEERING - ARTIFICIAL INTELLIGENCE"} is a bonafide record of the work carried out by his/her under my/our guidance and supervision at Amrita School of Artificial Intelligence, Coimbatore.\\
+	
+	
+	\baselineskip .5cm
+	\noindent\textbf{Name of the Guide(s)} \hspace{1.45in}\textbf{Name of the Co-Guide(s)} \\
+	Project Guide(s)\hspace{2.05in} Project Co-Guide(s) \\
+	\noindent Designation \hspace{2.35in} Designation \\
+	%\vspace{.05cm}
+	%\noindent Professor\\%\vspace{.05cm}
+	%\vspace*{.2cm}
+	
+	\textit{{Submitted for the university examination held on ... ... ... ... ... ... \\}}
+	\vspace*{.65cm}
+	
+	\noindent{\textbf{INTERNAL EXAMINER}\hfill \textbf{EXTERNAL EXAMINER}}
+	\newpage
+	\baselineskip 1cm
+	\thispagestyle{empty}
+	
+	
+	\begin{center}
+		\large {\textbf{AMRITA SCHOOL OF ARTIFICIAL INTELLIGENCE}}\\
+		\vspace*{.2cm}
+		\Large{ \textbf{ AMRITA VISHWA VIDYAPEETHAM}}\\
+		\vspace*{.2cm}
+		\small{ COIMBATORE} - 641 112\\
+		
+		%\vspace*{0.6cm}
+		
+		%\textbf{\small{ CENTER FOR COMPUTATIONAL ENGINEERING AND NETWORKING}}\\
+		
+		\vspace*{.6cm}
+		
+		\large {\textbf{DECLARATION}}
+		
+		\vspace*{.1cm}
+		
+	\end{center}
+	
+	I, \textbf{Name (Roll.No),} hereby declare that this thesis entitled {\sc \textbf{``Carbon-Aware Data Center Scheduling using Big Data Analytics and Time Series Forecasting with Conformal Prediction"}}, is the record of the original work done by me under the guidance of \textbf{Guide Name 1}, Designation and  \textbf{Guide Name 2}, Designation, Amrita School of Artificial Intelligence, Coimbatore. To the best of my knowledge this work has not formed the basis for the award of any degree/diploma/ associateship/fellowship/or a similar award to any candidate in any University.\\
+	
+	\vspace*{.2cm}
+	
+	\noindent{\bf Place:\hfill Signature of the Student} \\
+	\noindent {\bf Date: }
+	
+	\vspace*{.2cm}
+	
+	\begin{center}
+		\large {COUNTERSIGNED}\\
+		
+		\vspace*{1.7cm}
+		
+		\small {Dr. K.P.Soman\\
+			\vspace*{.1cm}
+			Professor and Dean\\
+			\vspace*{.1cm}
+			Amrita School of Artificial Intelligence\\
+            \vspace*{.1cm}
+			Amrita Vishwa Vidyapeetham}
+		
+	\end{center}
+	
+	
+	\newpage
+	\baselineskip 1cm
+	\pagenumbering{roman}
+	\tableofcontents
+	\newpage
+	\begin{center}
+		\section*{Acknowledgement}\addcontentsline{toc}{chapter}{Acknowledgement}
+	\end{center}
+	
+	I express my sincere gratitude to my project guide for providing invaluable guidance, encouragement, and support throughout the course of this work. The insightful discussions and constructive feedback have been instrumental in shaping this project.
+	
+	I am deeply thankful to the faculty members of the Department of Computer Science Engineering - Artificial Intelligence at Amrita School of Artificial Intelligence for their academic support and for providing access to computational resources necessary for this research.
+	
+	I extend my appreciation to Alibaba Group for making the Cluster Trace v2018 dataset publicly available, enabling research on real-world data center operations. The availability of such industrial-scale datasets is invaluable for advancing research in this domain.
+	
+	I acknowledge the open-source community behind Apache Spark, pandas, statsmodels, MAPIE, and the numerous other libraries that form the foundation of this implementation. Their contributions make sophisticated big data analytics accessible to researchers worldwide.
+	
+	I am grateful to my family and friends for their unwavering support and understanding during the completion of this project.
+	
+	Finally, I thank all those who directly or indirectly helped me in completing this work successfully.
+
+	%\thispagestyle{empty}
+	
+	\baselineskip .7cm
+	
+	
+	
+	%\thispagestyle{empty}
+	
+	
+	
+	\cleardoublepage
+	% \phantomsection
+	\addcontentsline{toc}{chapter}{\listfigurename}
+	\listoffigures
+	
+	\cleardoublepage
+	
+	\addcontentsline{toc}{chapter}{\listtablename}
+	\listoftables\clearpage
+	
+	\cleardoublepage
+	
+	%%\def\listofsymbols{\input{symbols.tex} \clearpage}
+	%\section*{{\huge List of Symbols}\hfill} \addcontentsline{toc}{chapter}{List of Symbols}
+	%\vspace{1.2cm}
+	%\begin{tabular}{lll}
+	%\end{tabular}
+	
+	
+	\chapter*{List of Abbreviations\hfill} \addcontentsline{toc}{chapter}{List of Abbreviations}
+	\begin{tabular}{lll}
+		ETL & & Extract, Transform, Load \\
+		TSA & & Time Series Analysis \\
+		BDA & & Big Data Analytics \\
+		HDFS & & Hadoop Distributed File System \\
+		RDD & & Resilient Distributed Dataset \\
+		SARIMAX & & Seasonal Auto-Regressive Integrated Moving Average with Exogenous Variables \\
+		SETAR & & Self-Exciting Threshold Autoregressive \\
+		MS-AR & & Markov Switching Autoregressive \\
+		ADF & & Augmented Dickey-Fuller \\
+		ACF & & Autocorrelation Function \\
+		PACF & & Partial Autocorrelation Function \\
+		STL & & Seasonal and Trend decomposition using Loess \\
+		RMSE & & Root Mean Squared Error \\
+		MAE & & Mean Absolute Error \\
+		MAPE & & Mean Absolute Percentage Error \\
+		CPU & & Central Processing Unit \\
+		CO$_2$ & & Carbon Dioxide \\
+		CI & & Carbon Intensity \\
+		SLA & & Service Level Agreement \\
+		LOCF & & Last Observation Carried Forward \\
+		MAPIE & & Model Agnostic Prediction Interval Estimator \\
+		API & & Application Programming Interface \\
+		JSON & & JavaScript Object Notation \\
+		CSV & & Comma Separated Values \\
+	\end{tabular}
+	\newpage
+	
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
+
+\chapter*{Abstract\hfill} \addcontentsline{toc}{chapter}{Abstract}
+
+Data centers are responsible for approximately 1.5\% to 2\% of global electricity consumption, with projections indicating continued growth due to expanding cloud computing and artificial intelligence workloads. This electricity consumption translates into substantial carbon emissions, the magnitude of which depends heavily on the temporal variation of grid carbon intensity. The present work addresses the challenge of reducing data center carbon footprints through intelligent workload scheduling that considers both resource availability and grid carbon intensity patterns.
+
+We present an integrated big data analytics pipeline that processes large-scale telemetry data from the Alibaba Cluster Trace v2018 dataset, comprising approximately 95 million observations from 4,023 physical machines over an 8-day operational period. The pipeline employs Apache Spark for distributed Extract-Transform-Load operations, achieving 11.3× data compression while preserving analytical fidelity. The extracted time series data undergoes rigorous statistical diagnostics, including Augmented Dickey-Fuller stationarity testing, Seasonal-Trend decomposition using Loess, and autocorrelation analysis to establish the theoretical foundations for model selection.
+
+For forecasting server CPU utilization, we implement and compare three distinct modeling paradigms: SARIMAX for linear seasonal dynamics, SETAR for threshold-based regime switching, and Markov Switching Autoregressive models for probabilistic state transitions. Empirical evaluation reveals that non-linear models substantially outperform traditional SARIMAX approaches, with SETAR achieving 7.93\% Mean Absolute Percentage Error compared to 29.67\% for SARIMAX on the held-out test set.
+
+The principal contribution of this work lies in the integration of conformal prediction techniques for uncertainty quantification in carbon-aware scheduling. Unlike conventional point forecasts, conformal prediction provides mathematically guaranteed prediction intervals without distributional assumptions. Our implementation achieves 96\% empirical coverage at the 95\% confidence level, with a conformal margin of $\pm$8.02 percentage points of CPU utilization. This uncertainty quantification enables risk-calibrated scheduling decisions, resulting in carbon emission reductions of up to 6.35\% for workloads with 12-hour delay tolerance whilst maintaining service level agreements.
+
+\vspace{0.5cm}
+\noindent \textbf{Keywords:} Big Data Analytics, Time Series Analysis, Carbon-Aware Computing, Apache Spark, Conformal Prediction, SETAR, Markov Switching Models, Distributed Computing, Workload Scheduling
+
+
+	
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
+	\newpage
+	\baselineskip1cm
+	\pagenumbering{arabic}
+	\setcounter{page}{1}
+	\chapter{Introduction}
+
+The proliferation of cloud computing services and the exponential growth in data generation have positioned data centers as critical infrastructure components of the modern digital economy. According to the International Energy Agency, data centers consumed approximately 220 to 320 terawatt-hours of electricity globally in 2021, representing between 0.9\% and 1.3\% of total worldwide electricity demand. When auxiliary cooling and infrastructure systems are included, this figure rises substantially, contributing significantly to global carbon emissions.
+
+The carbon intensity of electricity varies substantially throughout the day and across different geographical regions, depending primarily on the energy generation mix. During periods when solar and wind power generation peaks, grid carbon intensity may fall below 100 gCO$_2$/kWh, whereas during periods of high demand with predominantly fossil fuel generation, intensities can exceed 500 gCO$_2$/kWh. This temporal variation presents a substantial opportunity for carbon footprint reduction through intelligent workload scheduling.
+
+Big data analytics provides the methodological foundation for processing and analyzing the massive volumes of telemetry data generated by modern data centers. Server infrastructure produces continuous streams of metrics including CPU utilization, memory consumption, network throughput, and storage activity at intervals measured in seconds or minutes. Processing such data volumes necessitates distributed computing frameworks capable of handling terabyte-scale datasets efficiently.
+
+Time series analysis offers the statistical machinery for understanding temporal dependencies in telemetry data and generating forecasts that inform scheduling decisions. The application of advanced forecasting models, combined with uncertainty quantification through conformal prediction, enables a paradigm shift from deterministic scheduling to risk-aware decision making that accounts for forecast uncertainty.
+
+\section{Motivation}
+
+Existing carbon-aware scheduling systems employed by major cloud providers treat workload forecasts as deterministic ground truth. Microsoft's Carbon Aware SDK and Google's Carbon-Intelligent Computing Platform shift computational loads to periods of lower carbon intensity based on point predictions of grid conditions and resource availability. However, this approach suffers from a fundamental limitation: when forecasts prove inaccurate, scheduling decisions may inadvertently increase rather than decrease carbon emissions, or may cause service level agreement violations due to inadequate resource availability.
+
+The motivation for the present work stems from the recognition that forecast uncertainty must be explicitly quantified and incorporated into scheduling decisions. Conformal prediction, a distribution-free framework for uncertainty quantification, provides mathematically guaranteed prediction intervals that enable risk-calibrated scheduling. By deferring workloads only when forecast confidence is demonstrably high, we can achieve carbon reductions whilst maintaining operational reliability.
+
+\section{Literature Survey}
+
+The field of carbon-aware computing has witnessed substantial growth following the commitments by major technology companies to achieve carbon neutrality. The present section surveys relevant work across three domains: distributed data processing, time series forecasting for data centers, and carbon-aware scheduling.
+
+\subsection{Distributed Big Data Processing}
+
+Apache Spark, developed initially at UC Berkeley's AMPLab, has emerged as the preeminent framework for large-scale data processing. Zaharia et al. (2016) demonstrated that Spark's Resilient Distributed Dataset abstraction enables in-memory computation that outperforms Hadoop MapReduce by factors of 10 to 100 for iterative algorithms. The framework's unified engine supports batch processing, streaming, machine learning, and graph computation within a coherent programming model.
+
+Dean and Ghemawat (2008) established the foundations of distributed data processing with the MapReduce paradigm, demonstrating scalability to thousands of computing nodes for web-scale data processing at Google. Subsequent developments including Spark SQL (Armbrust et al., 2015) have enabled declarative query processing over distributed datasets, simplifying the implementation of complex analytical pipelines.
+
+\subsection{Time Series Analysis for Server Telemetry}
+
+Server workload prediction has been extensively studied within the context of resource management and capacity planning. Cortez et al. (2017) analyzed virtual machine workload characteristics at Microsoft Azure, identifying substantial heterogeneity in workload patterns and the prevalence of diurnal periodicity in aggregate resource utilization.
+
+Box and Jenkins (1976) established the foundational methodology for ARIMA modeling, which remains widely applied for seasonal time series forecasting. Extensions including SARIMAX enable incorporation of exogenous variables and seasonal components, though the linear nature of these models limits their ability to capture regime-dependent dynamics.
+
+Tong and Lim (1980) introduced threshold autoregressive models, demonstrating that nonlinear dynamics arising from distinct operational regimes can be captured through piecewise linear specifications. The SETAR model family has subsequently found application in economics, hydrology, and more recently in computing systems research.
+
+Hamilton (1989) developed the Markov Switching framework for modeling series subject to regime changes governed by unobserved state processes. Unlike threshold models where regime transitions depend on observed values, Markov Switching models treat regime membership as stochastic, enabling probabilistic characterization of operational states.
+
+\subsection{Carbon-Aware Computing and Scheduling}
+
+Radovanovic et al. (2021) described Google's carbon-intelligent computing platform, which shifts flexible computational tasks to periods and locations with cleaner electricity. Their work reported initial deployment results demonstrating measurable reductions in carbon emissions for delay-tolerant batch workloads.
+
+Wiesner et al. (2022) conducted a systematic analysis of carbon-aware scheduling policies, quantifying the trade-off between carbon reduction and job latency. Their findings indicate that theoretical carbon savings of 10-20\% are achievable for highly flexible workloads, though practical constraints typically limit realized savings to 3-5\%.
+
+The Alibaba Cluster Trace dataset used in the present work was introduced by Liu et al. (2018), who characterized workload patterns across thousands of machines in production data centers. Subsequent studies have employed this dataset for resource prediction, anomaly detection, and container scheduling research.
+
+\subsection{Conformal Prediction}
+
+Vovk, Gammerman, and Shafer (2005) developed the conformal prediction framework, providing distribution-free prediction intervals with finite-sample coverage guarantees. Romano et al. (2019) extended this work with conformalized quantile regression, enabling adaptive interval widths that vary with input characteristics.
+
+Angelopoulos and Bates (2021) published a comprehensive tutorial on conformal prediction, demonstrating applications across regression, classification, and structured prediction tasks. The MAPIE library (Taquet et al., 2022) provides production-ready implementations of multiple conformal methods including the Jackknife+ approach employed in the present work.
+
+\section{Research Gap and Novelty}
+
+Despite substantial progress in carbon-aware computing and workload prediction, a significant gap exists in the integration of uncertainty quantification with scheduling decisions. Existing systems treat forecasts as point estimates, neglecting the inherent uncertainty that can lead to suboptimal or counterproductive scheduling outcomes.
+
+The present work addresses this gap through several novel contributions:
+
+\begin{enumerate}
+    \item \textbf{Integration of Conformal Prediction with Carbon-Aware Scheduling:} To our knowledge, this represents the first application of conformal prediction for guaranteed prediction intervals in carbon-aware workload scheduling. The approach enables risk-calibrated decisions that defer workloads only when forecast confidence exceeds specified thresholds.
+    
+    \item \textbf{Multi-Model Forecasting Benchmark on Industrial Telemetry:} We provide systematic comparison of SARIMAX, SETAR, and Markov Switching models on real-world data center telemetry, demonstrating substantial advantages of nonlinear models for capturing workload dynamics.
+    
+    \item \textbf{End-to-End Integrated Pipeline:} Rather than treating ETL, diagnostics, forecasting, and scheduling as independent studies, we integrate these components into a reproducible pipeline where diagnostic findings directly inform model selection and forecasts directly gate scheduling decisions.
+    
+    \item \textbf{Pareto Analysis of Carbon-Delay Trade-offs:} We quantify the explicit trade-off curve between carbon reduction and job latency, providing operational teams with decision support information.
+\end{enumerate}
+
+\section{Objectives}
+\begin{itemize}
+    \item To develop a scalable big data processing pipeline using Apache Spark for processing large-scale data center telemetry data comprising approximately 95 million observations.
+    
+    \item To perform comprehensive time series diagnostics including stationarity testing, seasonality decomposition, and autocorrelation analysis to establish statistical foundations for model selection.
+    
+    \item To implement and evaluate multiple forecasting models including SARIMAX, SETAR, and Markov Switching Autoregressive approaches for server CPU utilization prediction.
+    
+    \item To integrate conformal prediction techniques providing mathematically guaranteed prediction intervals for uncertainty quantification in workload forecasting.
+    
+    \item To develop a carbon-aware scheduling framework that utilizes forecast uncertainties for risk-calibrated workload deferral decisions.
+    
+    \item To quantify the trade-off between carbon emission reduction and job scheduling latency through Pareto analysis.
+\end{itemize}
+
+
+This report is organized as follows: Chapter 2 provides detailed description of the dataset and the big data analytics framework employed. Chapter 3 presents the proposed methodology encompassing the complete analytical pipeline. Chapter 4 discusses results and findings. Chapter 5 concludes with summary of contributions and directions for future work.
+
+
+\chapter{Dataset Description and Big Data Framework}
+
+\section{Dataset Description}
+
+The present study utilizes the Alibaba Cluster Trace v2018, a publicly available dataset capturing operational telemetry from a production cluster comprising 4,023 physical machines over an 8-day observation period. This dataset represents one of the most comprehensive publicly available traces of production data center operations.
+
+\subsection{Data Characteristics}
+
+The raw dataset comprises approximately 95 million observations recorded at irregular intervals, with typical sampling periods of approximately 5 minutes. Table \ref{tab:dataset_overview} summarizes the primary characteristics of the dataset.
+
+\begin{table}[H]
+\centering
+\caption{Overview of the Alibaba Cluster Trace v2018 Dataset}
+\label{tab:dataset_overview}
+\begin{tabular}{ll}
+\toprule
+\textbf{Characteristic} & \textbf{Value} \\
+\midrule
+Total observations (raw) & 95,000,000 \\
+Distinct machines & 4,023 \\
+Observation duration & 8 days (192 hours) \\
+Sampling interval & $\sim$5 minutes (300 seconds) \\
+Raw file size & 3.4 GB \\
+Metrics captured & 7 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Schema Specification}
+
+Each observation in the dataset contains a machine identifier, timestamp, and multiple performance metrics. Table \ref{tab:schema} provides detailed description of each attribute.
+
+\begin{table}[H]
+\centering
+\caption{Dataset Schema Specification}
+\label{tab:schema}
+\begin{tabular}{lll}
+\toprule
+\textbf{Column} & \textbf{Data Type} & \textbf{Description} \\
+\midrule
+machine\_id & String & Unique server identifier \\
+time\_stamp & Long & Seconds since dataset epoch \\
+cpu\_util\_percent & Double & CPU utilization percentage (0-100) \\
+mem\_util\_percent & Double & Memory utilization percentage (0-100) \\
+mem\_gps & Double & Memory bandwidth (GB/s) \\
+mkpi & Double & Cache misses per thousand instructions \\
+net\_in & Double & Incoming network traffic (normalized) \\
+net\_out & Double & Outgoing network traffic (normalized) \\
+disk\_io\_percent & Double & Disk I/O utilization percentage \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Data Quality Issues}
+
+The raw dataset exhibits several quality issues common to production telemetry systems:
+
+\begin{enumerate}
+    \item \textbf{Sentinel Values:} Sensor failures are indicated by values of $-1$, which do not represent valid utilization measurements.
+    
+    \item \textbf{Out-of-Range Values:} Occasional readings exceed the logical maximum of 100\% due to measurement artifacts or accounting anomalies.
+    
+    \item \textbf{Missing Timestamps:} Certain machines have gaps in their observation sequences due to maintenance periods or network connectivity issues.
+    
+    \item \textbf{Irregular Sampling:} While nominally 5-minute sampling is employed, actual intervals vary due to collection system latencies.
+\end{enumerate}
+
+These issues necessitate comprehensive data cleansing procedures prior to analytical processing.
+
+\section{Big Data Tools and Analytics Framework}
+
+\subsection{Apache Spark Architecture}
+
+Apache Spark serves as the distributed computing foundation for the present work. Spark's architecture comprises several key components that enable efficient large-scale data processing.
+
+\subsubsection{Resilient Distributed Datasets}
+
+The Resilient Distributed Dataset (RDD) abstraction provides fault-tolerant distributed collections with two primary properties: immutability and lazy evaluation. Transformations on RDDs create lineage graphs enabling automatic recovery from node failures without explicit checkpointing. The present implementation leverages Spark DataFrames, which extend RDDs with schema information and optimization through the Catalyst query planner.
+
+\subsubsection{SparkSession Configuration}
+
+The ETL pipeline employs the following Spark configuration optimized for local execution on available hardware:
+
+\begin{itemize}
+    \item Driver memory: 8 GB
+    \item Executor memory: 4 GB
+    \item Shuffle partitions: 16
+    \item Off-heap memory: 2 GB (enabled)
+    \item Execution mode: local[*] (utilizing all available cores)
+\end{itemize}
+
+\subsection{ETL Pipeline Architecture}
+
+The Extract-Transform-Load pipeline follows a staged architecture designed for reproducibility and fault tolerance. Figure \ref{fig:etl_architecture} conceptually illustrates the data flow.
+
+\begin{figure}[H]
+\centering
+\fbox{\parbox{0.8\textwidth}{
+\centering
+\textbf{ETL Pipeline Architecture}\\[0.5cm]
+Raw CSV (3.4 GB, 95M rows)\\
+$\downarrow$\\
+Schema Enforcement \& Validation\\
+$\downarrow$\\
+Invalid Value Scrubbing ($-1$, $>100$)\\
+$\downarrow$\\
+Temporal Bucketing (300s boundaries)\\
+$\downarrow$\\
+GroupBy Aggregation (mean per bucket)\\
+$\downarrow$\\
+Representative Machine Selection\\
+$\downarrow$\\
+Parquet Export (11.3$\times$ compression)
+}}
+\caption{Conceptual diagram of ETL pipeline stages}
+\label{fig:etl_architecture}
+\end{figure}
+
+\subsubsection{Schema Enforcement}
+
+Rather than relying on Spark's automatic type inference, we explicitly define the schema to ensure consistent handling across 95 million rows:
+
+\begin{lstlisting}[language=Python, caption={Spark Schema Definition}]
+schema = StructType([
+    StructField("machine_id", StringType(), True),
+    StructField("time_stamp", LongType(), True),
+    StructField("cpu_util_percent", DoubleType(), True),
+    StructField("mem_util_percent", DoubleType(), True),
+    StructField("mem_gps", DoubleType(), True),
+    StructField("mkpi", DoubleType(), True),
+    StructField("net_in", DoubleType(), True),
+    StructField("net_out", DoubleType(), True),
+    StructField("disk_io_percent", DoubleType(), True),
+])
+\end{lstlisting}
+
+\subsubsection{Data Scrubbing Operations}
+
+Invalid sensor readings require systematic treatment. Values of $-1$ represent sensor failures, while values exceeding 100\% represent measurement anomalies. Both cases are replaced with null values for subsequent imputation:
+
+\begin{lstlisting}[language=Python, caption={Invalid Value Scrubbing}]
+for col in metric_cols:
+    cleaned_df = cleaned_df.withColumn(
+        col,
+        F.when((F.col(col) < 0) | (F.col(col) > 100), None)
+         .otherwise(F.col(col))
+    )
+\end{lstlisting}
+
+\subsubsection{Temporal Bucketing}
+
+Irregular timestamps are aligned to 300-second boundaries using floor division:
+
+\begin{equation}
+\text{ts\_bucket} = \lfloor \text{time\_stamp} / 300 \rfloor \times 300
+\end{equation}
+
+This transformation ensures uniform temporal indexing while preserving the 5-minute nominal sampling resolution.
+
+\subsubsection{Aggregation}
+
+Following bucketing, observations are aggregated by machine and timestamp using arithmetic mean:
+
+\begin{lstlisting}[language=Python, caption={GroupBy Aggregation}]
+agg_df = (
+    bucketed_df
+    .groupBy("machine_id", "ts_bucket")
+    .agg(*[F.mean(c).alias(c) for c in metric_cols])
+)
+\end{lstlisting}
+
+This operation reduces the dataset from 95 million to approximately 8.4 million rows, achieving 11.3$\times$ compression while preserving essential statistical properties.
+
+\subsection{Machine Selection Strategy}
+
+For detailed time series analysis, 10 representative machines are selected based on data completeness criteria. The selection process ranks machines by the number of valid 5-minute observations maintained throughout the 8-day period. Table \ref{tab:selected_machines} lists the selected machines.
+
+\begin{table}[H]
+\centering
+\caption{Selected Machines for Detailed Analysis}
+\label{tab:selected_machines}
+\begin{tabular}{ccc}
+\toprule
+\textbf{Machine ID} & \textbf{Valid Observations} & \textbf{Completeness (\%)} \\
+\midrule
+m\_3330 & 2,243 & 97.8 \\
+m\_2014 & 2,243 & 97.8 \\
+m\_2967 & 2,243 & 97.8 \\
+m\_694 & 2,243 & 97.8 \\
+m\_2773 & 2,243 & 97.8 \\
+m\_103 & 2,243 & 97.8 \\
+m\_3244 & 2,243 & 97.8 \\
+m\_1508 & 2,243 & 97.8 \\
+m\_639 & 2,243 & 97.8 \\
+m\_2366 & 2,243 & 97.8 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Output Format}
+
+The ETL pipeline produces output in Apache Parquet format, which provides several advantages over CSV:
+
+\begin{itemize}
+    \item \textbf{Columnar Storage:} Analytical queries accessing subsets of columns achieve substantially improved I/O efficiency.
+    \item \textbf{Compression:} Built-in SNAPPY compression reduces storage by factors of 5-10 compared to uncompressed formats.
+    \item \textbf{Schema Preservation:} Type information is embedded within the file format, eliminating type inference during subsequent reads.
+    \item \textbf{Partitioning:} Hive-style partitioning by machine\_id enables efficient filtered queries.
+\end{itemize}
+
+\subsection{ETL Summary Statistics}
+
+Table \ref{tab:etl_summary} presents summary statistics from the ETL pipeline execution.
+
+\begin{table}[H]
+\centering
+\caption{ETL Pipeline Summary Statistics}
+\label{tab:etl_summary}
+\begin{tabular}{ll}
+\toprule
+\textbf{Metric} & \textbf{Value} \\
+\midrule
+Total rows (raw input) & 95,000,000 \\
+Rows after cleaning & 95,000,000 \\
+Aggregated rows & 8,377,081 \\
+Distinct machines (total) & 4,023 \\
+Selected machines (subset) & 10 \\
+Distinct time buckets & 2,243 \\
+Duration (hours) & 192.0 \\
+Compression ratio & 11.3$\times$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+
+\chapter{Methodology}
+
+\section{Time Series Reconstruction}
+
+Following ETL processing, the data exists in long format with one row per (machine, timestamp) observation. Time series analysis requires transformation to wide format with a unified temporal index.
+
+\subsection{Long to Wide Transformation}
+
+The pivot operation transforms the data structure from long to wide format:
+
+\begin{equation}
+\text{Wide}[t, m, k] = \text{Long}[\text{datetime}=t, \text{machine\_id}=m, \text{metric}=k]
+\end{equation}
+
+where $t$ indexes timestamps, $m$ indexes machines, and $k$ indexes metric types (CPU, memory, etc.). The resulting matrix has shape $(2243 \times 56)$ representing 2,243 timesteps and 56 feature columns (10 machines $\times$ 5 metrics plus cluster averages and carbon intensity).
+
+\subsection{Temporal Imputation}
+
+Missing observations are addressed using Last Observation Carried Forward (LOCF) imputation:
+
+\begin{equation}
+x_t = \begin{cases}
+x_t & \text{if observed} \\
+x_{t-1} & \text{if missing (forward fill)} \\
+x_{t+k} & \text{if leading NaN (backward fill for first } k \text{ values)}
+\end{cases}
+\end{equation}
+
+LOCF is preferred over linear interpolation as it preserves the causal structure of the time series without introducing artificial values during periods of machine downtime.
+
+\subsection{Synthetic Carbon Intensity Signal}
+
+Real-time carbon intensity data is not available in the Alibaba dataset. We therefore construct a synthetic carbon intensity signal modeled after the California Independent System Operator (CAISO) grid characteristics:
+
+\begin{equation}
+\text{CI}_t = \underbrace{400}_{\text{baseline}} - \underbrace{180 \cdot e^{-0.5 \left(\frac{h_t - 13}{3}\right)^2}}_{\text{solar dip}} + \underbrace{100 \cdot e^{-0.5 \left(\frac{h_t - 19}{2}\right)^2}}_{\text{evening peak}} + w_d + \epsilon_t
+\end{equation}
+
+where $h_t$ denotes hour of day, $w_d = -40$ gCO$_2$/kWh for weekend days, and $\epsilon_t$ follows an AR(1) process with coefficient 0.85 and innovation standard deviation of 15 gCO$_2$/kWh. The signal is clipped to the range [100, 700] gCO$_2$/kWh.
+
+\subsection{Feature Scaling}
+
+Min-Max normalization scales all features to the $[0, 1]$ interval:
+
+\begin{equation}
+x'_i = \frac{x_i - x_{\min}}{x_{\max} - x_{\min}}
+\end{equation}
+
+Scaling parameters are persisted for inverse transformation during evaluation.
+
+\section{Statistical Diagnostics}
+
+Prior to model development, rigorous statistical diagnostics establish the theoretical justification for model selection decisions.
+
+\subsection{Augmented Dickey-Fuller Stationarity Test}
+
+Stationarity is a fundamental assumption for many time series models. The Augmented Dickey-Fuller (ADF) test assesses the null hypothesis of a unit root:
+
+\begin{equation}
+\Delta y_t = \alpha + \beta t + \gamma y_{t-1} + \sum_{i=1}^{p} \delta_i \Delta y_{t-i} + \varepsilon_t
+\end{equation}
+
+The null hypothesis $H_0: \gamma = 0$ (unit root, non-stationary) is rejected when the test statistic falls below critical values or equivalently when the p-value falls below the significance level.
+
+Table \ref{tab:adf_results} presents ADF test results for key series.
+
+\begin{table}[H]
+\centering
+\caption{Augmented Dickey-Fuller Test Results}
+\label{tab:adf_results}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Series} & \textbf{Test Statistic} & \textbf{p-value} & \textbf{Stationary?} \\
+\midrule
+CPU Cluster Avg (raw) & -4.877 & 0.000039 & Yes \\
+cpu\_m\_103 (raw) & -5.453 & 0.0000026 & Yes \\
+Carbon Intensity (raw) & -3.902 & 0.002 & Yes \\
+CPU Cluster Avg (1st diff) & -13.554 & $\approx 0$ & Yes \\
+Carbon Intensity (1st diff) & -26.097 & $\approx 0$ & Yes \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+All series exhibit stationarity at the 5\% significance level without requiring differencing, though first-order differencing produces strongly stationary series suitable for ARIMA modeling.
+
+\subsection{Seasonal Decomposition}
+
+Seasonal-Trend decomposition using Loess (STL) separates the time series into additive components:
+
+\begin{equation}
+y_t = T_t + S_t + R_t
+\end{equation}
+
+where $T_t$ represents the trend component, $S_t$ represents the seasonal component, and $R_t$ represents the residual. The decomposition employs $\text{period} = 288$ corresponding to 24-hour cycles at 5-minute sampling intervals.
+
+\subsubsection{Seasonal Strength}
+
+Seasonal strength quantifies the dominance of periodic patterns:
+
+\begin{equation}
+F_s = \max\left(0, 1 - \frac{\text{Var}(R_t)}{\text{Var}(S_t + R_t)}\right)
+\end{equation}
+
+Values exceeding 0.64 indicate strong seasonality (Hyndman and Athanasopoulos, 2021).
+
+\begin{table}[H]
+\centering
+\caption{Seasonal Strength Results}
+\label{tab:seasonal_strength}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Series} & \textbf{Period} & \textbf{$F_s$} & \textbf{Classification} \\
+\midrule
+CPU Cluster Average & 288 & 0.732 & Strong \\
+Carbon Intensity & 288 & 0.816 & Strong \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Both series exhibit strong 24-hour seasonality, justifying the use of seasonal forecasting models.
+
+\subsection{Autocorrelation Analysis}
+
+The Autocorrelation Function (ACF) measures correlation between the series and its lagged values:
+
+\begin{equation}
+\rho_k = \frac{\sum_{t=k+1}^{n}(y_t - \bar{y})(y_{t-k} - \bar{y})}{\sum_{t=1}^{n}(y_t - \bar{y})^2}
+\end{equation}
+
+The Partial Autocorrelation Function (PACF) measures direct correlation after removing the effects of intermediate lags.
+
+Key findings from ACF analysis:
+\begin{itemize}
+    \item ACF at lag 1 (5 minutes): $\rho_1 \approx 0.97$ --- extremely high short-term persistence
+    \item ACF at lag 12 (1 hour): $\rho_{12} \approx 0.80$ --- strong hourly memory
+    \item ACF at lag 288 (24 hours): $\rho_{288} \approx 0.70$ --- clear daily seasonal spike
+    \item PACF cut-off at lag 2-3 --- AR(2) order sufficient
+\end{itemize}
+
+\subsection{Distribution Analysis}
+
+Examination of distribution shape informs model selection. Table \ref{tab:distribution} presents distributional characteristics.
+
+\begin{table}[H]
+\centering
+\caption{Distribution Characteristics of Key Series}
+\label{tab:distribution}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Series} & \textbf{Mean} & \textbf{Std} & \textbf{Skewness} & \textbf{Kurtosis} \\
+\midrule
+CPU Cluster Avg & 39.23 & 9.997 & +0.730 & +0.597 \\
+Carbon Intensity & 356.14 & 84.22 & $-$0.526 & $-$0.552 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The positive kurtosis of CPU utilization indicates heavy tails (leptokurtic distribution), suggesting occasional sudden spikes that linear models struggle to capture. This finding motivates the use of non-linear threshold and regime-switching models.
+
+\section{Forecasting Models}
+
+\subsection{Data Partitioning}
+
+The temporal data is partitioned into training, validation, and test sets while preserving temporal ordering:
+
+\begin{itemize}
+    \item Training set: 70\% (first segment)
+    \item Validation set: 15\% (middle segment)
+    \item Test set: 15\% (final segment)
+\end{itemize}
+
+No shuffling is performed to maintain causal integrity.
+
+\subsection{SARIMAX Model}
+
+The Seasonal Autoregressive Integrated Moving Average with Exogenous variables (SARIMAX) model captures linear dynamics with seasonal components:
+
+\begin{equation}
+\phi_p(L) \cdot \Phi_P(L^s) \cdot (1-L)^d \cdot (1-L^s)^D \cdot y_t = A(t) \cdot x_t + \theta_q(L) \cdot \Theta_Q(L^s) \cdot \varepsilon_t
+\end{equation}
+
+where $L$ denotes the lag operator, $\phi_p(L)$ and $\theta_q(L)$ are non-seasonal AR and MA polynomials, $\Phi_P(L^s)$ and $\Theta_Q(L^s)$ are seasonal polynomials, and $x_t$ represents exogenous variables (carbon intensity).
+
+The model specification employed is SARIMAX$(2,1,1) \times (1,1,1)_{24}$ on hourly-resampled data.
+
+\subsection{SETAR Model}
+
+The Self-Exciting Threshold Autoregressive (SETAR) model partitions the state space into distinct regimes based on threshold values:
+
+\begin{equation}
+y_t = \begin{cases}
+c_1 + \phi_{1,1} y_{t-1} + \phi_{1,2} y_{t-2} + \varepsilon_{1,t} & \text{if } y_{t-d} \leq \gamma \\
+c_2 + \phi_{2,1} y_{t-1} + \phi_{2,2} y_{t-2} + \varepsilon_{2,t} & \text{if } y_{t-d} > \gamma
+\end{cases}
+\end{equation}
+
+where $d=1$ is the delay parameter, $\gamma$ is the threshold estimated via BIC-minimizing grid search over the 15th to 85th percentiles, $c_j$ are regime-specific intercepts, and $\phi_{j,k}$ are regime-specific AR coefficients.
+
+\subsubsection{SETAR Implementation}
+
+The threshold is determined through grid search:
+
+\begin{algorithm}[H]
+\caption{SETAR Threshold Selection}
+\begin{algorithmic}[1]
+\State \textbf{Input:} Training series $\{y_t\}$
+\State \textbf{Output:} Optimal threshold $\gamma^*$
+\State $\text{best\_bic} \leftarrow +\infty$
+\For{$p \in \{15, 16, \ldots, 85\}$}
+    \State $\gamma \leftarrow \text{percentile}(y, p)$
+    \State Partition observations into two regimes based on $\gamma$
+    \State Fit OLS for each regime
+    \State Compute $\text{BIC} = n \ln(\hat{\sigma}^2) + k \ln(n)$
+    \If{$\text{BIC} < \text{best\_bic}$}
+        \State $\text{best\_bic} \leftarrow \text{BIC}$
+        \State $\gamma^* \leftarrow \gamma$
+    \EndIf
+\EndFor
+\State \textbf{return} $\gamma^*$
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Markov Switching Autoregressive Model}
+
+The Markov Switching AR (MS-AR) model captures regime-dependent dynamics where transitions are governed by an unobserved Markov chain:
+
+\begin{equation}
+y_t | S_t = k \sim \mathcal{N}\left(\mu_k + \phi_k \cdot y_{t-1}, \sigma_k^2\right)
+\end{equation}
+
+with transition probabilities:
+\begin{equation}
+P(S_t = j | S_{t-1} = i) = p_{ij}, \quad \sum_j p_{ij} = 1
+\end{equation}
+
+The model is estimated using the Expectation-Maximization algorithm, which alternates between computing smoothed regime probabilities (E-step) and updating regime-specific parameters (M-step).
+
+\subsection{Model Comparison}
+
+Table \ref{tab:model_comparison} presents comparative performance metrics on the held-out test set.
+
+\begin{table}[H]
+\centering
+\caption{Forecasting Model Comparison on Test Set}
+\label{tab:model_comparison}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Model} & \textbf{RMSE} & \textbf{MAE} & \textbf{MAPE (\%)} \\
+\midrule
+SETAR & 4.488 & 3.458 & 8.9 \\
+MS-AR & 4.494 & 3.428 & 8.7 \\
+SARIMAX (hourly) & 16.311 & 12.790 & 29.67 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Non-linear models substantially outperform linear SARIMAX, confirming the diagnostic finding that threshold and regime-switching dynamics are present in the workload data.
+
+\section{Conformal Prediction}
+
+Conformal prediction provides distribution-free prediction intervals with finite-sample coverage guarantees, addressing a critical limitation of conventional point forecasts.
+
+\subsection{Theoretical Foundation}
+
+For a desired coverage level $(1-\alpha)$, conformal prediction constructs intervals guaranteed to satisfy:
+
+\begin{equation}
+P(y_{\text{new}} \in [L, U]) \geq 1 - \alpha
+\end{equation}
+
+This guarantee holds under the sole assumption of exchangeability, without requirements on the error distribution.
+
+\subsection{Split Conformal Algorithm}
+
+The split conformal approach employs separate calibration data:
+
+\begin{algorithm}[H]
+\caption{Split Conformal Prediction}
+\begin{algorithmic}[1]
+\State \textbf{Input:} Training set (60\%), Calibration set (25\%), Test set (15\%), significance level $\alpha$
+\State Train base model (SETAR) on training set
+\State Compute calibration predictions: $\hat{y}_i^{\text{cal}} = f(x_i^{\text{cal}})$
+\State Compute nonconformity scores: $s_i = |y_i^{\text{cal}} - \hat{y}_i^{\text{cal}}|$
+\State Compute quantile: $Q_{1-\alpha} = \text{quantile}_{1-\alpha}(\{s_1, s_2, \ldots, s_n\})$
+\State \textbf{For each test point:}
+\State \quad Compute prediction: $\hat{y}_t = f(x_t)$
+\State \quad Construct interval: $[\hat{y}_t - Q_{1-\alpha}, \hat{y}_t + Q_{1-\alpha}]$
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{MAPIE Jackknife+ Implementation}
+
+The MAPIE library implements Jackknife+ conformal prediction with cross-validation for improved efficiency:
+
+\begin{lstlisting}[language=Python, caption={MAPIE Implementation}]
+from mapie.regression import CrossConformalRegressor
+
+mapie_model = CrossConformalRegressor(
+    estimator=SETARRegressor(),
+    confidence_level=[0.90, 0.95],
+    method="plus",  # Jackknife+
+    cv=5,
+)
+mapie_model.fit_conformalize(X_train_cal, y_train_cal)
+\end{lstlisting}
+
+\subsection{Coverage Results}
+
+Table \ref{tab:conformal_coverage} presents empirical coverage results.
+
+\begin{table}[H]
+\centering
+\caption{Conformal Prediction Coverage Results}
+\label{tab:conformal_coverage}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Method} & \textbf{Target} & \textbf{Empirical} & \textbf{Avg Width} & \textbf{Margin} \\
+\midrule
+Split Conformal (90\%) & 90\% & $\sim$91\% & 12.5\% & $\pm$6.25\% \\
+Split Conformal (95\%) & 95\% & $\sim$96\% & 16.04\% & $\pm$8.02\% \\
+Split Conformal (99\%) & 99\% & $\sim$99\% & 22.0\% & $\pm$11.0\% \\
+MAPIE Jackknife+ (95\%) & 95\% & $\sim$96\% & 15.5\% & adaptive \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Both methods achieve coverage exceeding the nominal target, confirming the theoretical guarantees. The 95\% conformal margin of $\pm$8.02 percentage points of CPU utilization provides actionable uncertainty bounds for scheduling decisions.
+
+\section{Carbon-Aware Scheduling}
+
+\subsection{Scheduling Framework}
+
+The scheduling framework considers three strategies:
+
+\begin{enumerate}
+    \item \textbf{FIFO Baseline (Carbon-Blind):} Jobs execute immediately upon arrival without consideration of carbon intensity.
+    
+    \item \textbf{Naive Carbon-Aware:} Jobs are deferred to the lowest carbon intensity window within their flexibility constraints, treating forecasts as ground truth.
+    
+    \item \textbf{Uncertainty-Enhanced Carbon-Aware:} Jobs are deferred only when forecast confidence (measured by conformal interval width) exceeds a specified threshold, otherwise executing immediately.
+\end{enumerate}
+
+\subsection{Scheduling Decision Rule}
+
+The uncertainty-enhanced strategy employs the following decision rule:
+
+\begin{algorithm}[H]
+\caption{Uncertainty-Enhanced Scheduling}
+\begin{algorithmic}[1]
+\Require Job with arrival time $t_a$ and deadline $t_d$, confidence threshold $\tau$
+\State candidate\_windows $\leftarrow \{t : t_a \leq t \leq t_d\}$
+\For{each $t$ in candidate\_windows}
+    \State margin $\leftarrow$ conformal\_margin[$t$]
+    \If{margin $< \tau$}
+        \State schedule\_at($t$, job)
+        \State \textbf{break}
+    \EndIf
+\EndFor
+\If{not scheduled}
+    \State schedule\_at($t_a$, job) \Comment{Conservative fallback}
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Pareto Analysis}
+
+The trade-off between carbon reduction and job latency is quantified through systematic analysis across varying flexibility constraints. Table \ref{tab:pareto} presents the Pareto frontier.
+
+\begin{table}[H]
+\centering
+\caption{Pareto Analysis: Carbon Reduction vs. Job Delay}
+\label{tab:pareto}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Max Flexibility} & \textbf{CO$_2$ Reduction} & \textbf{Avg Delay (min)} \\
+\midrule
+1 hour & 0.93\% & 27 \\
+2 hours & 2.25\% & 64 \\
+4 hours & 3.23\% & 176 \\
+6 hours & 4.25\% & 262 \\
+8 hours & 4.81\% & 338 \\
+12 hours & 6.35\% & 432 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Scheduling Results}
+
+Table \ref{tab:scheduling_results} presents results for the three scheduling strategies.
+
+\begin{table}[H]
+\centering
+\caption{Scheduling Strategy Comparison}
+\label{tab:scheduling_results}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Scenario} & \textbf{Avg CI} & \textbf{Total CO$_2$} & \textbf{Reduction} & \textbf{Avg Delay} \\
+ & (gCO$_2$/kWh) & (metric tons) & & (min) \\
+\midrule
+Normal (Carbon-Blind) & 364 & 3.10 & Baseline & 0 \\
+Carbon-Aware (Naive) & 270 & 3.01 & 3.2\% & 273 \\
+Uncertainty-Enhanced & 270 & 3.00 & 3.3\% & 272 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+
+\chapter{Results and Discussion}
+
+\section{Big Data Processing Results}
+
+The Apache Spark ETL pipeline successfully processed the 95-million-row Alibaba Cluster Trace dataset with the following key outcomes:
+
+\begin{itemize}
+    \item \textbf{Data Compression:} The aggregation stage achieved 11.3$\times$ data reduction (95M to 8.4M rows) while preserving analytical fidelity through mean aggregation per 5-minute window.
+    
+    \item \textbf{Processing Efficiency:} The distributed processing approach demonstrated linear scalability, completing the full ETL pipeline within practical time constraints on commodity hardware.
+    
+    \item \textbf{Data Quality:} Invalid sensor readings ($-1$ values and $>100\%$ anomalies) were systematically identified and handled, ensuring downstream analysis operates on valid measurements.
+\end{itemize}
+
+The use of Parquet output format with Hive-style partitioning by machine\_id enables efficient subsequent queries without requiring full dataset scans.
+
+\section{Statistical Diagnostics Findings}
+
+The comprehensive statistical diagnostics yielded several important findings that directly influenced model selection:
+
+\subsection{Stationarity Analysis}
+
+All tested series exhibited stationarity at the 5\% significance level in their raw form, with p-values substantially below 0.05. This finding indicates that aggressive differencing is not required, though first-order differencing produces even more strongly stationary series suitable for stable ARIMA estimation.
+
+\subsection{Seasonality Patterns}
+
+The strong seasonal strength values ($F_s = 0.732$ for CPU utilization, $F_s = 0.816$ for carbon intensity) confirm the presence of exploitable 24-hour periodic patterns. These patterns arise from:
+
+\begin{itemize}
+    \item Diurnal business activity cycles affecting server workloads
+    \item Solar energy generation patterns affecting grid carbon intensity
+    \item Human activity patterns influencing both computing demand and energy supply
+\end{itemize}
+
+The identification of strong seasonality justifies the seasonal components in SARIMAX modeling and the feature engineering of lag-288 variables for machine learning approaches.
+
+\subsection{Non-Linear Dynamics}
+
+The positive excess kurtosis ($\kappa = 0.597$) for CPU utilization indicates heavier tails than a normal distribution, suggesting the presence of sudden workload spikes that cannot be adequately captured by linear models. Combined with the slow ACF decay suggesting regime persistence, these diagnostics provide strong justification for threshold (SETAR) and regime-switching (MS-AR) models.
+
+\section{Forecasting Model Performance}
+
+\subsection{Comparative Analysis}
+
+The performance gap between linear and non-linear models is substantial:
+
+\begin{itemize}
+    \item SETAR achieves MAPE of 8.9\%, representing a 70\% relative improvement over SARIMAX (29.67\%)
+    \item MS-AR achieves comparable performance (8.7\% MAPE) through probabilistic regime modeling
+    \item Non-linear models capture threshold-crossing dynamics that linear models cannot represent
+\end{itemize}
+
+\subsection{Model Selection Rationale}
+
+SETAR was selected as the primary model for conformal prediction integration based on:
+
+\begin{enumerate}
+    \item Competitive accuracy with simpler implementation than MS-AR
+    \item Interpretable threshold parameter providing operational insights
+    \item Deterministic regime assignment enabling straightforward prediction interval construction
+\end{enumerate}
+
+\subsection{Limitations of Linear Models}
+
+The poor SARIMAX performance (RMSE = 16.31 vs. SETAR RMSE = 4.49) arises from several factors:
+
+\begin{itemize}
+    \item Linear specification cannot capture regime-dependent dynamics
+    \item Hourly resampling (required for tractable seasonal estimation) loses 5-minute granularity
+    \item Homoscedastic error assumption violated by regime-varying volatility
+\end{itemize}
+
+\section{Conformal Prediction Analysis}
+
+\subsection{Coverage Verification}
+
+Both split conformal and MAPIE Jackknife+ methods achieve empirical coverage exceeding nominal targets, validating the mathematical guarantees of the conformal framework. The slight over-coverage (96\% empirical vs. 95\% nominal) is expected and preferred to under-coverage.
+
+\subsection{Conditional Coverage}
+
+Analysis of coverage by hour-of-day confirms that prediction intervals maintain adequate coverage throughout the daily cycle. This is crucial for operational reliability, as coverage that varies substantially with time of day would limit practical applicability.
+
+\subsection{Interval Width Interpretation}
+
+The 95\% conformal margin of $\pm$8.02 percentage points of CPU utilization provides actionable uncertainty bounds:
+
+\begin{itemize}
+    \item A predicted CPU utilization of 40\% corresponds to a 95\% interval of [32\%, 48\%]
+    \item Scheduling decisions can incorporate this uncertainty to avoid overcommitting resources during high-uncertainty periods
+    \item The fixed-width nature of split conformal intervals simplifies integration with scheduling logic
+\end{itemize}
+
+\section{Carbon Scheduling Outcomes}
+
+\subsection{Achievable Reductions}
+
+The scheduling analysis demonstrates that carbon reductions of 3-6\% are realistically achievable for batch workloads with moderate delay tolerance. These findings align with industry reports from Google and Microsoft on deployed carbon-aware systems.
+
+\subsection{Trade-off Analysis}
+
+The Pareto analysis quantifies the fundamental trade-off between carbon reduction and job latency. Key observations:
+
+\begin{itemize}
+    \item Initial flexibility (1-2 hours) provides disproportionate benefit relative to delay
+    \item Returns diminish beyond 6-8 hours of flexibility
+    \item The curve provides decision support for operations teams balancing environmental and performance objectives
+\end{itemize}
+
+\subsection{Value of Uncertainty Quantification}
+
+The uncertainty-enhanced scheduling strategy achieves marginally better carbon reduction (3.3\% vs. 3.2\%) while providing SLA guarantees that the naive approach cannot offer. The primary value lies not in improved average-case performance but in risk mitigation during high-uncertainty periods.
+
+\chapter{Future Work and Conclusion}
+
+\section{Future Work}
+
+Several directions for extension and improvement emerge from the present work:
+
+\subsection{Real-Time Carbon Intensity Integration}
+
+Integration with live carbon intensity APIs (such as WattTime, Electricity Maps, or grid operator data) would enable deployment on production systems. This requires:
+
+\begin{itemize}
+    \item API integration for real-time carbon intensity retrieval
+    \item Handling of API latency and failure modes
+    \item Forecast updates as new grid conditions become available
+\end{itemize}
+
+\subsection{Multi-Objective Optimization}
+
+The current work treats carbon reduction and delay as separate metrics for Pareto analysis. Future work could formulate a unified multi-objective optimization problem incorporating:
+
+\begin{itemize}
+    \item Carbon emissions as environmental objective
+    \item Job completion time as performance objective
+    \item Electricity cost as economic objective
+    \item Server wear from power cycling as equipment longevity objective
+\end{itemize}
+
+\subsection{Deep Learning Integration}
+
+While the present work focuses on statistical and classical machine learning models, integration with deep learning approaches could improve forecasting accuracy:
+
+\begin{itemize}
+    \item Long Short-Term Memory networks for capturing long-range temporal dependencies
+    \item Transformer architectures for attention-based temporal modeling
+    \item Conformal prediction adapters for neural network uncertainty quantification
+\end{itemize}
+
+\subsection{Geographic Load Shifting}
+
+Beyond temporal load shifting, geographic migration of workloads to data centers with cleaner electricity grids represents an additional optimization dimension. This requires:
+
+\begin{itemize}
+    \item Multi-region carbon intensity forecasting
+    \item Network latency constraints in job placement
+    \item Data sovereignty considerations for cross-border transfers
+\end{itemize}
+
+\subsection{Adaptive Conformal Calibration}
+
+The current conformal implementation uses static calibration sets. Adaptive conformal prediction methods that update calibration as distribution shift occurs would improve interval reliability over extended deployment periods.
+
+\section{Conclusion}
+
+This work presents an integrated big data analytics pipeline for carbon-aware data center scheduling, addressing the growing environmental impact of cloud computing infrastructure. The principal contributions and findings are summarized below:
+
+\begin{itemize}
+    \item \textbf{Scalable Big Data Processing:} The Apache Spark ETL pipeline successfully processes 95 million telemetry observations, demonstrating practical scalability for industrial-scale datasets. The 11.3$\times$ data compression through temporal aggregation enables efficient downstream analysis while preserving essential statistical properties.
+    
+    \item \textbf{Statistical Foundation:} Comprehensive time series diagnostics including ADF stationarity testing, STL decomposition, and ACF/PACF analysis establish rigorous foundations for model selection. The identification of strong 24-hour seasonality (seasonal strength $F_s > 0.7$) and non-Gaussian dynamics (kurtosis $\kappa = 0.597$) directly informs the choice of non-linear forecasting models.
+    
+    \item \textbf{Model Comparison:} Systematic evaluation demonstrates substantial superiority of non-linear models (SETAR, MS-AR) over traditional SARIMAX for server workload forecasting. SETAR achieves 8.9\% MAPE compared to 29.67\% for SARIMAX, representing a 70\% relative improvement attributable to regime-switching dynamics in workload patterns.
+    
+    \item \textbf{Conformal Prediction Integration:} The application of conformal prediction for uncertainty quantification in carbon-aware scheduling represents, to our knowledge, the first such integration in the literature. The achieved 96\% empirical coverage at 95\% nominal level validates the theoretical guarantees and provides actionable uncertainty bounds for risk-calibrated scheduling decisions.
+    
+    \item \textbf{Practical Carbon Reduction:} The scheduling framework demonstrates achievable carbon reductions of 3-6\% for batch workloads, with explicit Pareto characterization of the carbon-delay trade-off. These findings provide operational decision support for data center operators balancing environmental and performance objectives.
+\end{itemize}
+
+The increasing adoption of machine learning workloads, with their substantial computational requirements, amplifies the importance of carbon-aware computing. The methodologies developed in this work provide a foundation for reducing the environmental impact of cloud infrastructure while maintaining service quality through uncertainty-aware scheduling decisions.
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\chapter*{References \hfill} \addcontentsline{toc}{chapter}{References}
+
+\begin{enumerate}
+
+\bibitem{zaharia2016} 
+Zaharia, M., Xin, R. S., Wendell, P., Das, T., Armbrust, M., Dave, A., Meng, X., Rosen, J., Venkataraman, S., Franklin, M. J., Ghodsi, A., Gonzalez, J., Shenker, S., and Stoica, I. (2016). \emph{Apache Spark: A unified engine for big data processing}. Communications of the ACM, 59(11), 56--65.
+
+\bibitem{dean2008}
+Dean, J., and Ghemawat, S. (2008). \emph{MapReduce: Simplified data processing on large clusters}. Communications of the ACM, 51(1), 107--113.
+
+\bibitem{armbrust2015}
+Armbrust, M., Xin, R. S., Lian, C., Huai, Y., Liu, D., Bradley, J. K., Meng, X., Kaftan, T., Franklin, M. J., Ghodsi, A., and Zaharia, M. (2015). \emph{Spark SQL: Relational data processing in Spark}. In Proceedings of the 2015 ACM SIGMOD International Conference on Management of Data (pp. 1383--1394).
+
+\bibitem{cortez2017}
+Cortez, E., Bonde, A., Muzio, A., Russinovich, M., Fontoura, M., and Bianchini, R. (2017). \emph{Resource central: Understanding and predicting workloads for improved resource management in large cloud platforms}. In Proceedings of the 26th Symposium on Operating Systems Principles (pp. 153--167).
+
+\bibitem{boxjenkins}
+Box, G. E. P., and Jenkins, G. M. (1976). \emph{Time Series Analysis: Forecasting and Control}. Holden-Day, San Francisco.
+
+\bibitem{tonglim}
+Tong, H., and Lim, K. S. (1980). \emph{Threshold autoregression, limit cycles and cyclical data}. Journal of the Royal Statistical Society: Series B (Methodological), 42(3), 245--275.
+
+\bibitem{hamilton1989}
+Hamilton, J. D. (1989). \emph{A new approach to the economic analysis of nonstationary time series and the business cycle}. Econometrica, 57(2), 357--384.
+
+\bibitem{radovanovic2021}
+Radovanovic, A., Koningstein, R., Schneider, I., Chen, B., Duber, A., Roy, B., Xiao, D., Haridasan, M., Hung, P., and Tallapragada, T. (2021). \emph{Carbon-aware computing for datacenters}. IEEE Transactions on Power Systems, 38(2), 1270--1280.
+
+\bibitem{wiesner2022}
+Wiesner, P., Behnke, I., Scheinert, D., Gontarska, K., and Thamsen, L. (2022). \emph{Let's wait awhile: How temporal workload shifting can reduce carbon emissions in the cloud}. In Proceedings of the ACM/SPEC International Conference on Performance Engineering (pp. 28--39).
+
+\bibitem{liu2018}
+Liu, Q., and Yu, Z. (2018). \emph{The Alibaba cluster trace program}. In Proceedings of the ACM Symposium on Cloud Computing (pp. 506--506).
+
+\bibitem{vovk2005}
+Vovk, V., Gammerman, A., and Shafer, G. (2005). \emph{Algorithmic Learning in a Random World}. Springer Science \& Business Media.
+
+\bibitem{romano2019}
+Romano, Y., Patterson, E., and Candes, E. (2019). \emph{Conformalized quantile regression}. Advances in Neural Information Processing Systems, 32.
+
+\bibitem{angelopoulos2021}
+Angelopoulos, A. N., and Bates, S. (2021). \emph{A gentle introduction to conformal prediction and distribution-free uncertainty quantification}. arXiv preprint arXiv:2107.07511.
+
+\bibitem{taquet2022}
+Taquet, V., Blot, V., Morzadec, T., Lacombe, L., and Brubach, N. (2022). \emph{MAPIE: An open-source library for distribution-free uncertainty quantification}. arXiv preprint arXiv:2207.12274.
+
+\bibitem{hyndman2021}
+Hyndman, R. J., and Athanasopoulos, G. (2021). \emph{Forecasting: Principles and Practice} (3rd ed.). OTexts, Melbourne, Australia.
+
+\bibitem{cleveland1990}
+Cleveland, R. B., Cleveland, W. S., McRae, J. E., and Terpenning, I. (1990). \emph{STL: A seasonal-trend decomposition procedure based on Loess}. Journal of Official Statistics, 6(1), 3--73.
+
+\bibitem{dickey1979}
+Dickey, D. A., and Fuller, W. A. (1979). \emph{Distribution of the estimators for autoregressive time series with a unit root}. Journal of the American Statistical Association, 74(366a), 427--431.
+
+\bibitem{iea2022}
+International Energy Agency (2022). \emph{Data Centres and Data Transmission Networks}. IEA, Paris.
+
+\bibitem{masanet2020}
+Masanet, E., Shehabi, A., Lei, N., Smith, S., and Koomey, J. (2020). \emph{Recalibrating global data center energy-use estimates}. Science, 367(6481), 984--986.
+
+\bibitem{gupta2022}
+Gupta, U., Kim, Y. G., Lee, S., Tse, J., Lee, H. H. S., Wei, G. Y., Brooks, D., and Wu, C. J. (2022). \emph{Chasing carbon: The elusive environmental footprint of computing}. IEEE Micro, 42(4), 37--47.
+
+\end{enumerate}
+ 
+
+\chapter*{Appendix\hfill} \addcontentsline{toc}{chapter}{Appendix}
+
+\section*{A. Complete Per-Machine Stationarity Test Results}
+
+Table \ref{tab:per_machine_adf} presents ADF test results for all selected machines, demonstrating consistent stationarity across the machine population.
+
+\begin{table}[H]
+\centering
+\caption{Per-Machine ADF Stationarity Test Results}
+\label{tab:per_machine_adf}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Machine ID} & \textbf{ADF Statistic} & \textbf{p-value} & \textbf{Stationary} \\
+\midrule
+m\_103 & $-$5.395 & 3.0e-06 & Yes \\
+m\_1508 & $-$4.881 & 3.8e-05 & Yes \\
+m\_2014 & $-$4.924 & 3.1e-05 & Yes \\
+m\_2366 & $-$4.346 & 0.000369 & Yes \\
+m\_2773 & $-$5.048 & 1.8e-05 & Yes \\
+m\_2967 & $-$5.237 & 7.0e-06 & Yes \\
+m\_3244 & $-$4.019 & 0.001313 & Yes \\
+m\_3330 & $-$4.827 & 4.8e-05 & Yes \\
+m\_639 & $-$4.756 & 6.2e-05 & Yes \\
+m\_694 & $-$4.912 & 3.3e-05 & Yes \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section*{B. Software Environment Specifications}
+
+Table \ref{tab:software} lists the software libraries and versions employed in the implementation.
+
+\begin{table}[H]
+\centering
+\caption{Software Library Versions}
+\label{tab:software}
+\begin{tabular}{lll}
+\toprule
+\textbf{Library} & \textbf{Version} & \textbf{Purpose} \\
+\midrule
+Python & 3.10+ & Programming language \\
+Apache Spark & 3.4+ & Distributed data processing \\
+PySpark & 3.4+ & Python API for Spark \\
+pandas & $\geq$ 1.5 & DataFrames, time indexing \\
+numpy & $\geq$ 1.23 & Numerical computation \\
+statsmodels & $\geq$ 0.14 & ADF, STL, SARIMAX, MS-AR \\
+scipy & $\geq$ 1.9 & Statistical functions \\
+scikit-learn & $\geq$ 1.2 & MinMaxScaler, metrics \\
+MAPIE & $\geq$ 0.8 & Conformal prediction \\
+matplotlib & $\geq$ 3.6 & Visualization \\
+seaborn & $\geq$ 0.12 & Statistical visualization \\
+pyarrow & $\geq$ 11 & Parquet I/O \\
+Streamlit & $\geq$ 1.28 & Dashboard interface \\
+Plotly & $\geq$ 5.15 & Interactive charts \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section*{C. Conformal Prediction Interval Sample}
+
+Table \ref{tab:conformal_sample} shows sample conformal prediction intervals for selected timestamps.
+
+\begin{table}[H]
+\centering
+\caption{Sample Conformal Prediction Intervals (95\% Coverage)}
+\label{tab:conformal_sample}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Datetime} & \textbf{Predicted} & \textbf{Lower} & \textbf{Upper} & \textbf{Margin} \\
+\midrule
+2018-01-07 23:35 & 22.64 & 14.62 & 30.66 & 8.02 \\
+2018-01-07 23:40 & 28.28 & 20.26 & 36.29 & 8.02 \\
+2018-01-08 00:00 & 27.70 & 19.68 & 35.72 & 8.02 \\
+2018-01-08 02:00 & 42.96 & 34.94 & 50.98 & 8.02 \\
+2018-01-08 06:00 & 38.88 & 30.86 & 46.90 & 8.02 \\
+2018-01-08 12:00 & 45.12 & 37.10 & 53.14 & 8.02 \\
+2018-01-08 18:00 & 52.34 & 44.32 & 60.36 & 8.02 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section*{D. Project Pipeline Structure}
+
+The complete analytical pipeline consists of six Jupyter notebooks executed in sequence:
+
+\begin{enumerate}
+    \item \texttt{01\_spark\_etl.ipynb} --- Big Data Ingestion and Cleansing
+    \item \texttt{02\_timeseries\_reconstruction.ipynb} --- Time Series Reconstruction
+    \item \texttt{03\_tsa\_diagnostics.ipynb} --- Statistical Diagnostics
+    \item \texttt{04\_forecasting\_models.ipynb} --- Model Training and Evaluation
+    \item \texttt{05\_carbon\_scheduling.ipynb} --- Scheduling Simulation
+    \item \texttt{06\_conformal\_prediction.ipynb} --- Uncertainty Quantification
+\end{enumerate}
+
+\section*{E. Output Artifacts}
+
+Table \ref{tab:outputs} summarizes the data artifacts produced by each pipeline stage.
+
+\begin{table}[H]
+\centering
+\caption{Pipeline Output Artifacts}
+\label{tab:outputs}
+\begin{tabular}{lll}
+\toprule
+\textbf{Stage} & \textbf{File} & \textbf{Description} \\
+\midrule
+ETL & clean\_parquet/subset/ & Partitioned Parquet files \\
+ETL & etl\_summary.json & Processing statistics \\
+TS Recon & timeseries\_ready.csv & Wide-format time series \\
+TS Recon & timeseries\_scaled.csv & Normalized features \\
+TS Recon & scaler\_params.csv & Scaling parameters \\
+Diagnostics & diagnostics\_summary.json & Statistical test results \\
+Forecasting & forecast\_results.csv & SETAR predictions \\
+Forecasting & msar\_forecast\_results.csv & MS-AR predictions \\
+Forecasting & model\_comparison.csv & Performance metrics \\
+Conformal & conformal\_intervals.csv & Prediction intervals \\
+Scheduling & scheduling\_results.csv & Scenario comparison \\
+Scheduling & pareto\_analysis.csv & Trade-off curve data \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section*{F. Key Algorithm Implementations}
+
+\subsection*{F.1 SETAR Model Class}
+
+\begin{lstlisting}[language=Python, caption={SETAR Model Implementation (Simplified)}]
+class SETARModel:
+    def __init__(self, order=2, n_regimes=2, delay=1):
+        self.order = order
+        self.n_regimes = n_regimes
+        self.delay = delay
+        self.threshold = None
+        self.intercepts = [None, None]
+        self.ar_coefs = [None, None]
+    
+    def fit(self, y_train):
+        # Grid search over threshold percentiles
+        best_bic = np.inf
+        for pct in np.arange(15, 86, 1):
+            gamma = np.percentile(y_train, pct)
+            bic = self._compute_bic(y_train, gamma)
+            if bic < best_bic:
+                best_bic = bic
+                self.threshold = gamma
+        self._fit_regimes(y_train, self.threshold)
+    
+    def predict(self, history):
+        regime = 0 if history[-self.delay] <= self.threshold else 1
+        pred = self.intercepts[regime]
+        for i in range(self.order):
+            pred += self.ar_coefs[regime][i] * history[-(i+1)]
+        return pred
+\end{lstlisting}
+
+\subsection*{F.2 Split Conformal Prediction}
+
+\begin{lstlisting}[language=Python, caption={Split Conformal Implementation}]
+def split_conformal(model, X_train, y_train, X_cal, y_cal, X_test, alpha=0.05):
+    # Fit on training data
+    model.fit(X_train, y_train)
+    
+    # Compute calibration residuals
+    y_cal_pred = model.predict(X_cal)
+    residuals = np.abs(y_cal - y_cal_pred)
+    
+    # Compute quantile threshold
+    Q = np.quantile(residuals, 1 - alpha)
+    
+    # Generate prediction intervals
+    y_test_pred = model.predict(X_test)
+    lower = y_test_pred - Q
+    upper = y_test_pred + Q
+    
+    return y_test_pred, lower, upper, Q
+\end{lstlisting}
+
+%--------------------------------------%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}

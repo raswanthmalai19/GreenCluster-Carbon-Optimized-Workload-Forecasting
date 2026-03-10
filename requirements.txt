@@ -1,0 +1,15 @@
+pyspark>=3.4
+pandas
+numpy
+matplotlib
+seaborn
+statsmodels
+scikit-learn
+torch
+mapie
+jupyter
+pyarrow
+scipy
+streamlit
+plotly
+joblib

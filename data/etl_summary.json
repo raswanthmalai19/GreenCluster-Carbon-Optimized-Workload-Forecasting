@@ -1,0 +1,35 @@
+{
+  "total_rows_raw": 95000000,
+  "rows_after_cleaning": 95000000,
+  "aggregated_rows": 8377081,
+  "distinct_machines_total": 4023,
+  "selected_machines_count": 10,
+  "selected_machines": [
+    "m_2251",
+    "m_1223",
+    "m_1565",
+    "m_1617",
+    "m_3060",
+    "m_34",
+    "m_1437",
+    "m_2544",
+    "m_1903",
+    "m_1672"
+  ],
+  "distinct_time_buckets": 2243,
+  "duration_hours": 192.0,
+  "timestamp_range": {
+    "ts_min": 0,
+    "ts_max": 691190
+  },
+  "compression_ratio": 11.3,
+  "metric_columns": [
+    "cpu_util_percent",
+    "mem_util_percent",
+    "mem_gps",
+    "mkpi",
+    "net_in",
+    "net_out",
+    "disk_io_percent"
+  ]
+}
