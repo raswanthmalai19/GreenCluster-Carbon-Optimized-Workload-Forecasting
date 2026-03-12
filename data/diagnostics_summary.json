@@ -2,31 +2,31 @@
   "adf_tests": [
     {
       "series": "CPU Cluster Avg (raw)",
-      "test_stat": -4.662276464367741,
-      "p_value": 9.901107686505111e-05,
+      "test_stat": -4.662276464367736,
+      "p_value": 9.901107686505309e-05,
       "stationary": "True"
     },
     {
       "series": "cpu_m_1223 (raw)",
-      "test_stat": -4.822663563400723,
-      "p_value": 4.9209044220174366e-05,
+      "test_stat": -4.822663563400719,
+      "p_value": 4.9209044220175315e-05,
       "stationary": "True"
     },
     {
       "series": "Carbon Intensity (raw)",
-      "test_stat": -3.73456151176175,
-      "p_value": 0.003652459957857977,
+      "test_stat": -3.7345615117617488,
+      "p_value": 0.0036524599578579963,
       "stationary": "True"
     },
     {
       "series": "CPU Cluster Avg (1st-order differenced)",
-      "test_stat": -10.673761672858442,
-      "p_value": 4.10359510870461e-19,
+      "test_stat": -10.673761672858452,
+      "p_value": 4.1035951087044326e-19,
       "stationary": "True"
     },
     {
       "series": "Carbon Intensity (1st-order differenced)",
-      "test_stat": -26.88597336580197,
+      "test_stat": -26.88597336580195,
       "p_value": 0.0,
       "stationary": true
     }
@@ -55,5 +55,42 @@
     "lag_12_1hr": 0.6454,
     "lag_144_12hr": -0.3206,
     "lag_288_24hr": 0.5466
+  },
+  "bds_nonlinearity_test": {
+    "series": "cpu_cluster_avg",
+    "epsilon_rule": "1.5 * sigma",
+    "overall_nonlinear": true,
+    "per_dimension": [
+      {
+        "dim": 2,
+        "bds_stat": 90.302272,
+        "p_value": 0.0,
+        "nonlinear": true
+      },
+      {
+        "dim": 3,
+        "bds_stat": 95.865023,
+        "p_value": 0.0,
+        "nonlinear": true
+      },
+      {
+        "dim": 4,
+        "bds_stat": 101.073942,
+        "p_value": 0.0,
+        "nonlinear": true
+      },
+      {
+        "dim": 5,
+        "bds_stat": 108.123962,
+        "p_value": 0.0,
+        "nonlinear": true
+      },
+      {
+        "dim": 6,
+        "bds_stat": 117.377677,
+        "p_value": 0.0,
+        "nonlinear": true
+      }
+    ]
   }
 }
